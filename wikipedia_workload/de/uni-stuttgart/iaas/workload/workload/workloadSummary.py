@@ -1,112 +1,71 @@
-#Definition of the Workload: https://dumps.wikimedia.org/other/pagecounts-raw/
+import RequestSummary as rs
+import pandas as pd
+import constants as cs
 
-from datetime import datetime, date, time
-from collections import OrderedDict
-import calendar
-import workloadOcurrence
+class WorkloadSummary:
 
-class workloadSummary:
+    def __init__(self, beginYear, beginMonth, beginDay, beginHour,
+                 endYear, endMonth, endDay, endHour, summary_col_names=[],
+                 workload_summary= None, numberRequests= 0, sizeContentBytes= 0, requests={}):
+        self.beginYear = int(beginYear)
+        self.beginMonth = int(beginMonth)
+        self.beginDay = int(beginDay)
+        self.beginHour = int(beginHour)
+        self.endYear = int(endYear)
+        self.endMonth = int(endMonth)
+        self.endDay = int(endDay)
+        self.endHour = int(endHour)
+        self.numberRequest = numberRequests
+        self.sizeContentBytes = sizeContentBytes
 
-   def __init__(self, project, language, titlePage, numberRequests, sizeContentBytes, year, month, day, hour):
-       self.project = project
-       self.language = language
-       self.titlePage = titlePage
-       self.totalNumberRequests = numberRequests
-       self.totalSizeContentBytes = sizeContentBytes
 
-       self.ocurrences = {self.getDateTimeStamp(year, month, day, hour - 1):
-           workloadOcurrence.WorkloadOcurrence(
-                   self.getDateTimeStamp(year, month, day, hour - 1), numberRequests, sizeContentBytes)}
+        if summary_col_names.__len__() > 0:
+            self.summary_col_names = summary_col_names
+        else:
+            self.summary_col_names = cs.WORKLOAD_SUMMARY_COL
 
-   def getProject(self):
-       return self.project
+        if workload_summary:
+            self.workload_summary = workload_summary
+        else:
+            self.workload_summary = pd.DataFrame(self.summary_col_names)
 
-   def getLanguage(self):
-       return self.language
-
-   def getTitlePage(self):
-       return self.titlePage
-
-   def getNumberRequests(self):
-       return self.totalNumberRequests
-
-   def getSizeContentBytes(self):
-       return self.totalSizeContentBytes
-
-   def getOcurrences(self):
-       return self.ocurrences
-
-   def getDateTimeStamp(self, year, month, day, hour):
-       d = date(year, month, day)
-       t = time(hour, 00)
-       d = datetime.combine(d, t)
-       return calendar.timegm(d.timetuple())
-
-   def getStringTime(self, timestamp):
-       return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
-
-   def addOccurence(self, titlePage, numberRequests, sizeContentBytes, year, month, day, hour):
-       if self.ocurrences.__len__() > 0:
-           self.totalNumberRequests += numberRequests
-           self.ocurrences[self.getDateTimeStamp(year, month, day, hour - 1)] = \
-               workloadOcurrence.WorkloadOcurrence(
-                   self.getDateTimeStamp(year, month, day, hour - 1), numberRequests, sizeContentBytes)
-
-       else:
-           self.ocurrences = {self.getDateTimeStamp(year, month, day, hour - 1):
-           workloadOcurrence.WorkloadOcurrence(
-                   self.getDateTimeStamp(year, month, day, hour - 1), numberRequests, sizeContentBytes)}
-
-   def groupWorkloadPerDay(self):
-       sortedTimeStamps = sorted(self.ocurrences.keys())
-       w = {}
-       timestamp = 0
-       workloadGroupedOcurrence = None
-       for i in sortedTimeStamps:
-           if sortedTimeStamps.index(i) == 0 or (datetime.fromtimestamp(i).day != datetime.fromtimestamp(timestamp).day\
-                   or datetime.fromtimestamp(i).month != datetime.fromtimestamp(timestamp).month
-                                                 or datetime.fromtimestamp(i).year != datetime.fromtimestamp(timestamp).year):
-               timestamp = i
-               workloadGroupedOcurrence = workloadOcurrence.WorkloadOcurrence(i, self.ocurrences[i].getNumberRequests(),
-                                                                        self.ocurrences[i].getSizeContentBytes())
-               w[timestamp] = workloadGroupedOcurrence
-           else:
-               workloadGroupedOcurrence = w.pop(timestamp)
-               workloadOccurrence = self.ocurrences[i]
-               workloadGroupedOcurrence.addNumberRequests(workloadOccurrence.getNumberRequests())
-               w[timestamp] = workloadGroupedOcurrence
-       return w
-
-   def groupWorkloadPerMonth(self):
-       sortedTimeStamps = sorted(self.ocurrences.keys())
-       w = {}
-       timestamp = 0
-       workloadGroupedOcurrence = None
-       for i in sortedTimeStamps:
-           if sortedTimeStamps.index(i) == 0 or (datetime.fromtimestamp(i).month != datetime.fromtimestamp(timestamp).month\
-                   or datetime.fromtimestamp(i).year != datetime.fromtimestamp(timestamp).year):
-               timestamp = i
-               workloadGroupedOcurrence = workloadOcurrence.WorkloadOcurrence(i, self.ocurrences[i].getNumberRequests(),
-                                                                        self.ocurrences[i].getSizeContentBytes())
-               w[timestamp] = workloadGroupedOcurrence
-           else:
-               workloadGroupedOcurrence = w.pop(timestamp)
-               workloadOccurrence = self.ocurrences[i]
-               workloadGroupedOcurrence.addNumberRequests(workloadOccurrence.getNumberRequests())
-               w[timestamp] = workloadGroupedOcurrence
-       return w
-
-   def sortOcurrencePerTimeStamp(self, workloadOcurrence):
-       return OrderedDict(sorted(workloadOcurrence.items(), key=lambda t: t[0]))
-
-   def sortOcurrencePerNumberOfRequests(self, workloadOcurrence):
-       return OrderedDict(sorted(workloadOcurrence.items(), key=lambda t: t[1].numberRequests))
-
-   def __str__(self):
-       return self.project + ' ' + self.titlePage + ' ' + str(self.totalNumberRequests) + ' ' + str(self.totalSizeContentBytes)
+        if requests.__len__() > 0:
+            self.requests = requests
+        else:
+            self.requests = {}
 
 
 
+    def addWorkloadSample(self, df, year, month, day, hour):
+        #TODO: verify if the page already exists in the summary. Then, just update its value and find the one in the list
+
+        for row in df.itertuples():
+            #each row is a tuple of (index,project, page, num_requests, bytes)
+            page = row[2]
+            #Request already exists
+            if self.requests.has_key(page):
+                request = self.requests.get(page)
+                request.addOccurence(row[2], row[3], row[4], year, month, day, hour)
+
+                # Update Entry in Workload Summary
+                index = self.workload_summary[self.workload_summary[cs.WORKLOAD_SUMMARY_COL_PAGE] ==
+                                    page].index.tolist()[0]
+                self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS,
+                                                request.getNumberRequests() + row[3])
+                self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_TOTAL_BYTES,
+                                                request.getNumberRequests() * request.getSizeContentBytes())
+
+            else:
+                request = rs.RequestSummary(row[1], row[2], row[3], row[4], year, month, day, hour)
+
+                 # Create Entry in Workload Summary
+                requestOccurrence = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
+                                                   request.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
+                                                   request.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour)]],
+                                                 columns=cs.WORKLOAD_SUMMARY_COL)
+                self.workload_summary = self.workload_summary.append(requestOccurrence, ignore_index=True)
+
+            self.requests[page] = request
 
 
 
