@@ -1,14 +1,58 @@
 import csv
 import mimetypes
 from pylab import *
-import os.path
+import os
 import ntpath
+from datetime import date, timedelta, time
+import calendar
 
 #File Utils
+import locale
+locale.getdefaultlocale()
+csv.field_size_limit(sys.maxsize)
 
-def read_csv_file(file_path, delimiter):
+def build_file_name(year, month, day, time, count):
+    return count + "-" + year + month + day + "-" + time + "0000"
+
+def get_timestamp_from_file_name(fileName):
+    splitted = fileName.split('-')
+    dateStr = splitted[1]
+    timeStr = splitted[2]
+    year = dateStr[0:4]
+    month = dateStr[4:6]
+    day = dateStr[6:8]
+    hour = timeStr[0:2]
+    d = date(int(year), int(month), int(day))
+    t = time(int(hour), 00)
+    d = datetime.datetime.combine(d, t)
+    return d
+
+
+def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMonth, endday, hours, count):
+    a = date(beginYear, beginMonth, beginday)
+    b = date(endYear, endMonth, endday)
+
+    dd = [a + timedelta(days=x) for x in range((b-a).days + 1)]
+    fileList = []
+    if dd.__len__() == 0:
+        for h in hours:
+            fileName = build_file_name(str(beginYear).zfill(2), str(beginMonth).zfill(2), str(beginday).zfill(2), h, count)
+            fileList.append(fileName)
+    else:
+        for d in dd:
+            for h in hours:
+                fileName = build_file_name(d.isoformat().split('-')[0], d.isoformat().split('-')[1], d.isoformat().split('-')[2], h, count)
+                fileList.append(fileName)
+
+    return fileList
+
+def read_csv_file_from_path(file_path, delimiter):
         return csv.reader(open(file_path, 'rb'),
-                          delimiter=delimiter)
+                          delimiter=delimiter, quoting=csv.QUOTE_NONE)
+
+def read_csv_file(file, delimiter):
+    return csv.reader(file,
+                          delimiter=delimiter, quoting=csv.QUOTE_NONE)
 
 def write_to_csv_file(file_path, delimiter, list):
         resultFile = open(file_path, 'wb')
@@ -27,6 +71,7 @@ def read_text_file(self, file_path):
 
 def verify_file_type(self, file_path):
         return mimetypes.guess_type(file_path)
+
 def verify_file_extension(self, file_path):
         return os.path.splitext(file_path)[1][1:]
 
@@ -36,10 +81,10 @@ def get_file_name(self, file_path):
 
 #CSV Utils
 
-def getColumn(self, reader, column):
+def getColumn(reader, column):
         return [result[column] for result in reader]
 
-def getRow(self, reader, row):
+def getRow(reader, row):
     count = 1
     for i in reader:
         if count == row:
@@ -47,13 +92,13 @@ def getRow(self, reader, row):
         else:
             count += 1
 
-def getFromColumn(self, reader, fromColumn):
+def getFromColumn(reader, fromColumn):
     result = []
     for i in reader:
         result.append(i[fromColumn:])
     return result
 
-def getFromRow(self, reader, fromRow):
+def getFromRow(reader, fromRow):
     count = 1
     result = []
     for i in reader:
@@ -63,13 +108,13 @@ def getFromRow(self, reader, fromRow):
             count += 1
     return result;
 
-def convertToMatrix(self, reader):
+def convertToMatrix(reader):
     result = []
     for i in reader:
         result.append(i)
     return result
 
-def delete_row(self, reader, column):
+def delete_row(reader, column):
     result = []
     count = 1
     for i in reader:
@@ -78,23 +123,23 @@ def delete_row(self, reader, column):
         count += 1
     return result
 
-def getColumnsWithLabel(self, reader, label):
+def getColumnsWithLabel(reader, label):
     result = []
     columnLabel = reader[0]
     index = 0
     for i in columnLabel:
         if i == label:
-            result.append(self.getColumn(reader, index))
+            result.append(getColumn(reader, index))
         index += 1
     return result
 
-def is_in_list(self, l, element):
+def is_in_list(l, element):
     for i in l:
         if i == element:
             return True
 
 # CSV Calculation Functions
-def convertDictToList(self, dictionary):
+def convertDictToList(dictionary):
     result = []
     if (isinstance(dictionary, dict)):
         for key, value in dictionary.iteritems():
@@ -102,7 +147,7 @@ def convertDictToList(self, dictionary):
             result.append(temp)
     return result
 
-def convertToResponseTimeMs(self, reader):
+def convertToResponseTimeMs(reader):
     result = []
     for i in reader:
         row = []
@@ -112,7 +157,7 @@ def convertToResponseTimeMs(self, reader):
 
     return result
 
-def calculate_column_average(self, reader, column):
+def calculate_column_average(reader, column):
     l = []
     for i in reader:
         l.append(i[column-1])
@@ -121,34 +166,34 @@ def calculate_column_average(self, reader, column):
     else:
         return None
 
-def calculate_mean_list(self, l):
+def calculate_mean_list(l):
     length = len(l)
     sum = 0.0
     for i in l:
         sum += float(i)
     return sum / length
 
-def calculate_mean_columns(self, columns, col_label):
+def calculate_mean_columns(columns, col_label):
     result = {}
     l = []
     for i in columns:
-        l.append(self.calculate_mean_list(i))
+        l.append(calculate_mean_list(i))
     result.update({col_label:l})
 
     return result
 
-def calculate_median_list(self,l):
+def calculate_median_list(l):
     return median(l)
 
-def calculate_median_columns(self, columns, col_label):
+def calculate_median_columns(columns, col_label):
     result = {}
     l = []
     for i in columns:
-        l.append(self.calculate_median_list(i))
+        l.append(calculate_median_list(i))
     result.update({col_label:l})
     return result
 
-def convertQueriesAxisSuperindex(self, queries):
+def convertQueriesAxisSuperindex(queries):
     res = []
     for i in queries:
         spl = i.split(' ')
@@ -156,15 +201,28 @@ def convertQueriesAxisSuperindex(self, queries):
 
     return res
 
-def createQuerySuperindex(self, queriesNumber):
+def createQuerySuperindex(queriesNumber):
     res = []
     for i in queriesNumber:
         res.append('$Q^{' + i + '}$')
 
     return res
 
-def convertListToFloat(self, l):
+def convertListToFloat(l):
     res = []
     for i in l:
         res.append(float(i))
     return res
+
+def filter_csv_file_rows(inFilePath, outFilePath, delimiter, filter_values):
+    inFile = open(inFilePath, 'rb')
+    inReader = csv.reader(inFile, delimiter=delimiter, quoting=csv.QUOTE_NONE)
+    outWriter = csv.writer(open(outFilePath, 'wb'), delimiter=delimiter, quoting=csv.QUOTE_NONE, quotechar='')
+    for row in inReader:
+        for filter_value in filter_values:
+            if row[0] == filter_value:
+                outWriter.writerow(row)
+    inFile.close()
+    os.remove(inFilePath)
+
+
