@@ -1,6 +1,5 @@
 import workload.constants as cs
 import pandas as pd
-import constants
 
 import csvHelper.csvHelper as csvHelper
 import workload.WorkloadSummary as ws
@@ -20,13 +19,19 @@ print fileList[0]
 print csvHelper.get_timestamp_from_file_name(fileList[0])
 
 for i in fileList:
+    fileName = cs.DATA_LOCAL_PATH + i + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
+    print "### Processing File: %s" % i
     # Append each workload file to a data frame
-    df = pd.read_csv(cs.DATA_LOCAL_PATH + i + cs.DATA_LOCAL_FILE_FILTERED + '.csv', delimiter=' ')
+    df = pd.read_csv(fileName, delimiter=' ')
     df.columns = [cs.WIKISTATS_COL_PROJECT, cs.WIKISTATS_COL_PAGE, cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]
+
+
+    print w.sortOccurrencePerNumberOfRequests(df)
+
     #w.addWorkloadSample(df, csvHelper.get_timestamp_from_file_name(i).year,
     #                    csvHelper.get_timestamp_from_file_name(i).month,
     #                    csvHelper.get_timestamp_from_file_name(i).day,
     #                    csvHelper.get_timestamp_from_file_name(i).hour)
-    print df
+
 
 #print w.workload_summary

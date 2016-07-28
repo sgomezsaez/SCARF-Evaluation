@@ -1,6 +1,6 @@
 import os
 
-import constants.constants as cs
+import workload.constants as cs
 
 import csvHelper.csvHelper as csvHelper
 import http.httpHelper as httpHelper
@@ -13,7 +13,7 @@ import workload.RequestSummary as rs
 #from time import sleep
 
 
-w = rs.RequestSummary("a","b","b", 300, 22, 2016, 7, 21, 13)
+w = rs.RequestSummary("a","b", 300, 22, 2016, 7, 21, 13)
 w.addOccurence("b", 200, 22, 2016, 7, 21, 13)
 w.addOccurence("b", 200, 22, 2016, 7, 23, 17)
 w.addOccurence("b", 100, 22, 2016, 7, 23, 13)
