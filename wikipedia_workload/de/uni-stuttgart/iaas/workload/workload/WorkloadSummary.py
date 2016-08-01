@@ -82,12 +82,12 @@ class WorkloadSummary:
                                                  self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                  self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]],
                                                columns=cs.WORKLOAD_SUMMARY_COL)
-                    lock.release()
+                    lock.acquire()
                     self.workload_summary = self.workload_summary.append(requestOccurrence, ignore_index=True)
                     lock.release()
             else:
                 # Create DataFrame if Null
-                lock.release()
+                lock.acquire()
                 self.workload_summary = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]], columns=cs.WORKLOAD_SUMMARY_COL)

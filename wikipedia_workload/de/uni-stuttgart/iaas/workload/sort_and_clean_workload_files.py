@@ -100,13 +100,18 @@ print threads
 [t.start() for t in threads]
 #[t.join() for t in threads]
 
+for t in threads:
+    print t.isAlive()
+    if t.isAlive():
+        sleep(20)
+
 
 # Dumping dataframe to CSV File
-#if w.workload_summary.size > 0:
-#    path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
-#           str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + '.csv'
-#    print "Writing DataFrame to: " + path
-#    w.workload_summary.to_csv(path_or_buf=path, sep=' ', columns=cs.WORKLOAD_SUMMARY_COL, index=False)
+if w.workload_summary.size > 0:
+    path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
+           str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + '.csv'
+    print "Writing DataFrame to: " + path
+    w.workload_summary.to_csv(path_or_buf=path, sep=' ', columns=cs.WORKLOAD_SUMMARY_COL, index=False)
 
 
 
