@@ -5,6 +5,9 @@ from datetime import datetime, date, time
 import pandas as pd
 import calendar
 import constants as cs
+import threading
+
+lock = threading.Lock()
 
 class WorkloadSummary:
 
@@ -59,6 +62,10 @@ class WorkloadSummary:
                 if not self.workload_summary.loc[self.workload_summary[cs.WORKLOAD_SUMMARY_COL_PAGE] == page].empty:
                     index = self.workload_summary[self.workload_summary[cs.WORKLOAD_SUMMARY_COL_PAGE] ==
                                     page].index.tolist()[0]
+
+
+
+                    lock.acquire()
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS,
                                             self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS]
                                                 + row[3])
@@ -67,6 +74,7 @@ class WorkloadSummary:
                                                 self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_BYTES_PER_REQUEST])
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_FREQUENCY,
                                                 self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_FREQUENCY] + 1)
+                    lock.release()
 
                 else:
                     # Create Entry in Workload Summary
@@ -74,12 +82,16 @@ class WorkloadSummary:
                                                  self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                  self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]],
                                                columns=cs.WORKLOAD_SUMMARY_COL)
+                    lock.release()
                     self.workload_summary = self.workload_summary.append(requestOccurrence, ignore_index=True)
+                    lock.release()
             else:
                 # Create DataFrame if Null
+                lock.release()
                 self.workload_summary = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]], columns=cs.WORKLOAD_SUMMARY_COL)
+                lock.release()
 
 
     def getDateTimeStamp(self, year, month, day, hour):
