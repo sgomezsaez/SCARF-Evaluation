@@ -50,7 +50,7 @@ DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
 FIGURES_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation/Publications/Journal/2016_TOIT/gfx/charts/"
 
 # Threads Config
-THREAD_NUMBER = 23
+THREAD_NUMBER = 24
 
 # Workload Summary COL
 WORKLOAD_SUMMARY_COL_PROJECT = 'project'
