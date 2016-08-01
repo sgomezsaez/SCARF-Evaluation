@@ -97,7 +97,7 @@ print threads
 #    threads[j].join()
 
 [t.start() for t in threads]
-#[t.join() for t in threads]
+[t.join() for t in threads]
 
 
 # Dumping dataframe to CSV File
