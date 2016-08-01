@@ -43,14 +43,15 @@ class WorkloadSummary:
         # Adding Hourly Summary
         timeStamp = self.getDateTimeStamp(year, month, day, hour)
         statDescriptionDF = df.describe()
-        statDescriptionDF[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP] = [timeStamp] * len(statDescriptionDF)
+        statDescriptionDF[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP] = timeStamp
+        statDescriptionDF.columns= [cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE, cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP]
         self.workloadHourSummary[timeStamp] = statDescriptionDF
 
     def addWorkloadSample(self, df, year, month, day, hour):
         df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]] = df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]].astype(float)
         for row in df.itertuples():
             # each row is a tuple of (index,project, page, num_requests, bytes)
-            print "Processing Row " + str(row[0])
+            #print "Processing Row " + str(row[0])
             page = row[2]
             # Workload summary does not exist for this timestamp
             if self.workload_summary is not None:
@@ -99,3 +100,21 @@ class WorkloadSummary:
         dfCopy = df.copy(deep=True);
         return dfCopy.sort_index(by=[cs.WORKLOAD_SUMMARY_COL_FREQUENCY], ascending=False)
 
+    def getDataFrameHourlyReport(self, timestamp):
+        count_requests = self.workloadHourSummary.get(timestamp).iloc[0][cs.WIKISTATS_COL_REQUESTS]
+        count_bytes = self.workloadHourSummary.get(timestamp).iloc[0][cs.WIKISTATS_COL_SIZE]
+        mean_requests = self.workloadHourSummary.get(timestamp).iloc[1][cs.WIKISTATS_COL_REQUESTS]
+        mean_bytes = self.workloadHourSummary.get(timestamp).iloc[1][cs.WIKISTATS_COL_SIZE]
+        std_requests = self.workloadHourSummary.get(timestamp).iloc[2][cs.WIKISTATS_COL_REQUESTS]
+        std_bytes = self.workloadHourSummary.get(timestamp).iloc[2][cs.WIKISTATS_COL_SIZE]
+        max_requests = self.workloadHourSummary.get(timestamp).iloc[7][cs.WIKISTATS_COL_REQUESTS]
+        max_bytes = self.workloadHourSummary.get(timestamp).iloc[7][cs.WIKISTATS_COL_SIZE]
+        timeStamp = self.workloadHourSummary.get(timestamp).iloc[1][cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP]
+
+        return pd.DataFrame([[timeStamp, count_requests, count_bytes, mean_requests, mean_bytes, std_requests,
+                                   std_bytes, max_requests, max_bytes]],
+                                 columns=[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP, cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
+                                            cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES, cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
+                                            cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES, cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
+                                            cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
+                                            cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES])

@@ -27,6 +27,16 @@ def get_timestamp_from_file_name(fileName):
     d = datetime.datetime.combine(d, t)
     return d
 
+def get_time_from_file_name(fileName):
+    splitted = fileName.split('-')
+    dateStr = splitted[1]
+    timeStr = splitted[2]
+    year = dateStr[0:4]
+    month = dateStr[4:6]
+    day = dateStr[6:8]
+    hour = timeStr[0:2]
+    return [year, month, day, hour]
+
 
 def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMonth, endday, hours, count):
     a = date(beginYear, beginMonth, beginday)

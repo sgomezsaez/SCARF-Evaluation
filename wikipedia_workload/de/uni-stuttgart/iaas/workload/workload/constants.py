@@ -16,7 +16,7 @@ WIKISTATS_END_MONTH = 01
 
 #WIKISTATS_BEGIN_DAY = 21
 WIKISTATS_BEGIN_DAY = 01
-WIKISTATS_END_DAY = 01
+WIKISTATS_END_DAY = 31
 
 WIKISTATS_HOURS = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
 
@@ -42,9 +42,12 @@ mediawiki_del = ".w"
 # Data local path
 DATA_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/"
 DATA_LOCAL_FILE_FILTERED = "_filtered"
+DATA_LOCAL_FILE_MONTHLY = "_monthly"
+DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
+
 
 # Figures Path
-DATA_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation/Publications/Journal/2016_TOIT/gfx/charts/"
+FIGURES_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation/Publications/Journal/2016_TOIT/gfx/charts/"
 
 # Threads Config
 THREAD_NUMBER = 23
@@ -60,6 +63,14 @@ WORKLOAD_SUMMARY_COL_END_DATE = 'end_date'
 WORKLOAD_SUMMARY_COL_FREQUENCY = 'hourly_frequency'
 
 WORKLOAD_SUMMARY_STAT_TIMESTAMP = 'timestamp'
+WORKLOAD_SUMMARY_STAT_COUNT_REQ = 'count_req'
+WORKLOAD_SUMMARY_STAT_COUNT_BYTES = 'count_bytes'
+WORKLOAD_SUMMARY_STAT_MEAN_REQ = 'mean_req'
+WORKLOAD_SUMMARY_STAT_MEAN_BYTES = 'mean_bytes'
+WORKLOAD_SUMMARY_STAT_STD_REQ = 'std_req'
+WORKLOAD_SUMMARY_STAT_STD_BYTES = 'std_bytes'
+WORKLOAD_SUMMARY_STAT_MAX_REQ = 'max_req'
+WORKLOAD_SUMMARY_STAT_MAX_BYTES = 'max_bytes'
 
 WORKLOAD_SUMMARY_COL = [WORKLOAD_SUMMARY_COL_PROJECT, WORKLOAD_SUMMARY_COL_PAGE, WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS,
                         WORKLOAD_SUMMARY_COL_BYTES_PER_REQUEST, WORKLOAD_SUMMARY_COL_TOTAL_BYTES,
