@@ -64,9 +64,10 @@ def worker(filePath, fileName):
 
 threads = []
 
-for day in range(retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
-                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
-                                                cs.WIKISTATS_END_DAY)):
+#for day in range(retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
+#                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
+#                                                cs.WIKISTATS_END_DAY)):
+for day in range(1):
     print "#Day %s" % day
     for hour in range(cs.THREAD_NUMBER):
         print "#Hour %s" % hour
@@ -97,7 +98,7 @@ print threads
 #    threads[j].join()
 
 [t.start() for t in threads]
-[t.join() for t in threads]
+#[t.join() for t in threads]
 
 
 # Dumping dataframe to CSV File
