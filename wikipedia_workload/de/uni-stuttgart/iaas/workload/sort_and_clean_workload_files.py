@@ -46,7 +46,7 @@ def worker(filePath, fileName):
 
     df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
     # Sorting Data Sample - Ordering Number of Requests Descending
-    #df = w.sortOccurrencePerNumberOfRequests(df)
+    df = w.sortOccurrencePerNumberOfRequests(df)
 
 
     lock.acquire()
