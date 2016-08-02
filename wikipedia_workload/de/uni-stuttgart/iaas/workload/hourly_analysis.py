@@ -22,6 +22,13 @@ for i in fileList:
     timeInterval = csvHelper.get_time_from_file_name(i)
     # Append each workload file to a data frame
     df = pd.read_csv(fileName, delimiter=' ')
+    df.columns = [cs.WIKISTATS_COL_PROJECT, cs.WIKISTATS_COL_PAGE, cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]
+    # Cleaning Sample. Deleting Entries that Number of Requests < mean number of requests
+    description = df.describe()
+    mean_requests = description.iloc[1][cs.WIKISTATS_COL_REQUESTS]
+    mean_bytes = description.iloc[1][cs.WIKISTATS_COL_SIZE]
+
+    df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
 
     w.addWorkloadHourStatSummary(df, int(timeInterval[0]), int(timeInterval[1]),
                                  int(timeInterval[2]), int(timeInterval[3]))
@@ -33,7 +40,9 @@ workloadSummary = pd.DataFrame(columns=[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP, cs.W
                                         cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES, cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
                                         cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES, cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
                                         cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                                        cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES])
+                                        cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES, cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+                                            cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
+
 
 
 for i in w.workloadHourSummary:
@@ -51,6 +60,8 @@ workloadSummary.to_csv(path_or_buf=path, sep=' ', columns=[cs.WORKLOAD_SUMMARY_S
                                                            cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
                                                            cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
                                                            cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                                                           cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES],
+                                                           cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
+                                                           cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+                                                            cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES],
                        index=False)
 

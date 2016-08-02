@@ -49,6 +49,13 @@ class WorkloadSummary:
         statDescriptionDF = df.describe()
         statDescriptionDF[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP] = timeStamp
         statDescriptionDF.columns= [cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE, cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP]
+        sum_requests = df[cs.WIKISTATS_COL_REQUESTS].sum()
+        sum_bytes = df[cs.WIKISTATS_COL_SIZE].sum()
+        sumDF = pd.DataFrame([[sum_requests, sum_bytes, timeStamp]], index=['sum'], columns=[cs.WIKISTATS_COL_REQUESTS,
+                                                                              cs.WIKISTATS_COL_SIZE,
+                                                                              cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP])
+        sumDF[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]] = sumDF[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]].astype(float)
+        statDescriptionDF = statDescriptionDF.append(sumDF)
         self.workloadHourSummary[timeStamp] = statDescriptionDF
 
     def addWorkloadSample(self, df, year, month, day, hour):
@@ -136,11 +143,15 @@ class WorkloadSummary:
         max_requests = self.workloadHourSummary.get(timestamp).iloc[7][cs.WIKISTATS_COL_REQUESTS]
         max_bytes = self.workloadHourSummary.get(timestamp).iloc[7][cs.WIKISTATS_COL_SIZE]
         timeStamp = self.workloadHourSummary.get(timestamp).iloc[1][cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP]
+        sum_requests = self.workloadHourSummary.get(timestamp).iloc[8][cs.WIKISTATS_COL_REQUESTS]
+        sum_bytes = self.workloadHourSummary.get(timestamp).iloc[8][cs.WIKISTATS_COL_SIZE]
 
-        return pd.DataFrame([[timeStamp, count_requests, count_bytes, mean_requests, mean_bytes, std_requests,
-                                   std_bytes, max_requests, max_bytes]],
+        df = pd.DataFrame([[timeStamp, count_requests, count_bytes, mean_requests, mean_bytes, std_requests,
+                                   std_bytes, max_requests, max_bytes, sum_requests, sum_bytes]],
                                  columns=[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP, cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
                                             cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES, cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
                                             cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES, cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
                                             cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                                            cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES])
+                                            cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES, cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+                                            cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
+        return df
