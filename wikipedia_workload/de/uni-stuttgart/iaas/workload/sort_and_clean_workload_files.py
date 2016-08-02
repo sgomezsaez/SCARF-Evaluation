@@ -11,6 +11,8 @@ from datetime import date, timedelta
 from random import randint
 from time import sleep
 
+lock = threading.Lock()
+
 fileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
                                                 cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
                                                    cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
@@ -56,8 +58,14 @@ def worker(filePath, fileName):
                         csvHelper.get_timestamp_from_file_name(fileName).day,
                         csvHelper.get_timestamp_from_file_name(fileName).hour)
 
-    print "Processed Workload Summaries: "
-    print w.workloadHourSummary
+    path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
+           str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + '.csv'
+    print "Processed Workload Summaries: Writing to file to " + path
+    lock.acquire()
+    fo = open(path, 'w+')
+    w.workload_summary.to_csv(path_or_buf=fo, sep=' ', columns=cs.WORKLOAD_SUMMARY_COL, index=False)
+    fo.close()
+    lock.release()
     print "### Processed File: %s" % filePath
     print "### Deleting File: %s" % filePath
     os.remove(filePath)
@@ -105,13 +113,6 @@ for t in threads:
     if t.isAlive():
         sleep(20)
 
-
-# Dumping dataframe to CSV File
-if not w.workload_summary.empty:
-    path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
-           str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + '.csv'
-    print "Writing DataFrame to: " + path
-    w.workload_summary.to_csv(path_or_buf=path, sep=' ', columns=cs.WORKLOAD_SUMMARY_COL, index=False)
 
 
 
