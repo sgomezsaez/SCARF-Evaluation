@@ -107,7 +107,7 @@ for t in threads:
 
 
 # Dumping dataframe to CSV File
-if w.workload_summary.size > 0:
+if not w.workload_summary.empty:
     path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
            str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + '.csv'
     print "Writing DataFrame to: " + path
