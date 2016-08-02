@@ -8,6 +8,9 @@ from multiprocessing import Process, Lock
 from datetime import date, timedelta
 from random import randint
 from time import sleep
+import os
+
+os.system("taskset -p 0xff %d" % os.getpid())
 
 lock = Lock()
 
