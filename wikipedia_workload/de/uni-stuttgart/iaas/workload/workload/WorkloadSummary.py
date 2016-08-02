@@ -67,7 +67,7 @@ class WorkloadSummary:
                                     page].index.tolist()[0]
 
 
-                    print "Acquiring lock"
+                    #print "Acquiring lock"
                     lock.acquire()
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS,
                                             self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS]
@@ -78,27 +78,27 @@ class WorkloadSummary:
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_FREQUENCY,
                                                 self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_FREQUENCY] + 1)
                     lock.release()
-                    print "Releasing lock"
+                    #print "Releasing lock"
                 else:
                     # Create Entry in Workload Summary
                     requestOccurrence = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                  self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                  self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]],
                                                columns=cs.WORKLOAD_SUMMARY_COL)
-                    print "Acquiring lock"
+                    #print "Acquiring lock"
                     lock.acquire()
                     self.workload_summary = self.workload_summary.append(requestOccurrence, ignore_index=True)
                     lock.release()
-                    print "Releasing lock"
+                    #print "Releasing lock"
             else:
                 # Create DataFrame if Null
-                print "Acquiring lock"
+                #print "Acquiring lock"
                 lock.acquire()
                 self.workload_summary = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]], columns=cs.WORKLOAD_SUMMARY_COL)
                 lock.release()
-                print "Releasing lock"
+                #print "Releasing lock"
 
     @staticmethod
     def getDateTimeStamp(year, month, day, hour):
@@ -121,6 +121,10 @@ class WorkloadSummary:
     def sortOccurrencePerHourlyFrequency(df):
         dfCopy = df.copy(deep=True);
         return dfCopy.sort_index(by=[cs.WORKLOAD_SUMMARY_COL_FREQUENCY], ascending=False)
+
+    @staticmethod
+    def getStringTime(timestamp):
+       return datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
 
     def getDataFrameHourlyReport(self, timestamp):
         count_requests = self.workloadHourSummary.get(timestamp).iloc[0][cs.WIKISTATS_COL_REQUESTS]
