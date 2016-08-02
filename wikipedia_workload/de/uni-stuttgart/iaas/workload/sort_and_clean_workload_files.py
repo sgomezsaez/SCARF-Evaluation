@@ -4,14 +4,12 @@ import csvHelper.csvHelper as csvHelper
 import workload.WorkloadSummary as ws
 import os
 
-import threading
-from thread import start_new_thread
-import datetime
+from multiprocessing import Process, Lock
 from datetime import date, timedelta
 from random import randint
 from time import sleep
 
-lock = threading.Lock()
+lock = Lock()
 
 fileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
                                                 cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
@@ -70,7 +68,7 @@ def worker(filePath, fileName):
     print "### Deleting File: %s" % filePath
     os.remove(filePath)
 
-threads = []
+processes = []
 
 #for day in range(retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
 #                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
@@ -88,10 +86,10 @@ for day in range(1):
                 filePath = cs.DATA_LOCAL_PATH + fileList[day * cs.THREAD_NUMBER + (hour + 1)] + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
                 fileName = fileList[day * cs.THREAD_NUMBER + hour]
         print filePath
-        t = threading.Thread(target=worker, args=(filePath, fileName))
-        threads.append(t)
+        t = Process(target=worker, args=(filePath, fileName))
+        processes.append(t)
 
-print threads
+print processes
 
 # Starting 23 Threads
 #for i in range(cs.THREAD_NUMBER):
@@ -105,12 +103,12 @@ print threads
 #    print "join thread " + str(j)
 #    threads[j].join()
 
-[t.start() for t in threads]
+[t.start() for t in processes]
 #[t.join() for t in threads]
 
-for t in threads:
-    print t.isAlive()
-    if t.isAlive():
+for t in processes:
+    print t.is_alive()
+    if t.is_alive():
         sleep(20)
 
 

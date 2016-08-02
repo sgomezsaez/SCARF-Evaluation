@@ -5,9 +5,9 @@ from datetime import datetime, date, time
 import pandas as pd
 import calendar
 import constants as cs
-import threading
+from multiprocessing import Lock
 
-lock = threading.Lock()
+lock = Lock()
 
 class WorkloadSummary:
 
