@@ -1,5 +1,6 @@
 import workload.constants as cs
 import pandas as pd
+from workload import WorkloadSummary as ws
 
 fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
 df = pd.read_csv(fileName, delimiter=' ')
@@ -14,6 +15,6 @@ df.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
                cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
                cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES]
 
-print df
+df = ws.WorkloadSummary.sortOccurrencesPerTimeStamp(df=df, timestampColName=cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP)
 
-
+plotArrayRequests = df.as_matrix(columns=cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ, )

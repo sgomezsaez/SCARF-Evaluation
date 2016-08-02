@@ -51,5 +51,6 @@ workloadSummary.to_csv(path_or_buf=path, sep=' ', columns=[cs.WORKLOAD_SUMMARY_S
                                                            cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
                                                            cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
                                                            cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                                                           cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES])
+                                                           cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES],
+                       index=False)
 

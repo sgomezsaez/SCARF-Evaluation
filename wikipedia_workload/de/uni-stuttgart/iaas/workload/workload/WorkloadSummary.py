@@ -44,6 +44,7 @@ class WorkloadSummary:
 
     def addWorkloadHourStatSummary(self, df, year, month, day, hour):
         # Adding Hourly Summary
+        print "Adding Workload Hour Stats Summary"
         timeStamp = self.getDateTimeStamp(year, month, day, hour)
         statDescriptionDF = df.describe()
         statDescriptionDF[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP] = timeStamp
@@ -51,6 +52,8 @@ class WorkloadSummary:
         self.workloadHourSummary[timeStamp] = statDescriptionDF
 
     def addWorkloadSample(self, df, year, month, day, hour):
+        message = "Adding Workload Sample for " + str(year) + str(month) + str(day) + str(hour)
+        print "Adding Workload Sample for " + message
         df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]] = df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]].astype(float)
         for row in df.itertuples():
             # each row is a tuple of (index,project, page, num_requests, bytes)
@@ -64,7 +67,7 @@ class WorkloadSummary:
                                     page].index.tolist()[0]
 
 
-
+                    print "Acquiring lock"
                     lock.acquire()
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS,
                                             self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS]
@@ -75,40 +78,47 @@ class WorkloadSummary:
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_FREQUENCY,
                                                 self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_FREQUENCY] + 1)
                     lock.release()
-
+                    print "Releasing lock"
                 else:
                     # Create Entry in Workload Summary
                     requestOccurrence = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                  self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                  self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]],
                                                columns=cs.WORKLOAD_SUMMARY_COL)
+                    print "Acquiring lock"
                     lock.acquire()
                     self.workload_summary = self.workload_summary.append(requestOccurrence, ignore_index=True)
                     lock.release()
+                    print "Releasing lock"
             else:
                 # Create DataFrame if Null
+                print "Acquiring lock"
                 lock.acquire()
                 self.workload_summary = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]], columns=cs.WORKLOAD_SUMMARY_COL)
                 lock.release()
+                print "Releasing lock"
 
-
-    def getDateTimeStamp(self, year, month, day, hour):
+    @staticmethod
+    def getDateTimeStamp(year, month, day, hour):
        d = date(year, month, day)
        t = time(hour, 00)
        d = datetime.combine(d, t)
        return calendar.timegm(d.timetuple())
 
-    def sortOccurrencesPerTimeStamp(self, df):
+    @staticmethod
+    def sortOccurrencesPerTimeStamp(df, timestampColName):
         dfCopy = df.copy(deep=True);
-        return dfCopy.sort_index(by=['date'], ascending=True)
+        return dfCopy.sort_index(by=[timestampColName], ascending=True)
 
-    def sortOccurrencePerNumberOfRequests(self, df):
+    @staticmethod
+    def sortOccurrencePerNumberOfRequests(df):
         dfCopy = df.copy(deep=True);
         return dfCopy.sort_index(by=[cs.WIKISTATS_COL_REQUESTS], ascending=False)
 
-    def sortOccurrencePerHourlyFrequency(self, df):
+    @staticmethod
+    def sortOccurrencePerHourlyFrequency(df):
         dfCopy = df.copy(deep=True);
         return dfCopy.sort_index(by=[cs.WORKLOAD_SUMMARY_COL_FREQUENCY], ascending=False)
 
