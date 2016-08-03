@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import datetime
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter, DayLocator, HourLocator, MinuteLocator
 from matplotlib import rc
+import seaborn as sns
 
 rc('font', **cs.font)
 
@@ -114,6 +115,7 @@ countBytes = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES].tolist()
 print countBytes
 ax2.plot(date_list, countBytes, color='b')
 ax2.xaxis.set_visible(False)
+ax2.set_title("Sum")
 #ax2.set_yscale('log')
 #ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
 #plt.xticks(rotation=70)
@@ -160,9 +162,8 @@ plt.gcf().subplots_adjust(bottom=0.26)
 # Plotting Bytes Max
 
 
-
-
 # Saving Figure to PDF
 fig1.savefig(cs.FIGURES_LOCAL_PATH + '/'+ 'hourlySummaryRequests.pdf', format='pdf')
 fig2.savefig(cs.FIGURES_LOCAL_PATH + '/'+ 'hourlySummaryBytes.pdf', format='pdf')
 #plt.show()
+
