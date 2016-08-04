@@ -44,6 +44,8 @@ DATA_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evalu
 DATA_LOCAL_FILE_FILTERED = "_filtered"
 DATA_LOCAL_FILE_MONTHLY = "_monthly"
 DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
+DATA_LOCAL_FILE_SCALED = "_scaled"
+
 
 
 # Figures Path

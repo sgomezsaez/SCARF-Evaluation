@@ -146,7 +146,8 @@ data = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
 
 # Plot for comparison
 plt.figure(figsize=(12,8))
-ax = data.plot(kind='hist', bins=50, normed=True, alpha=0.5, color=plt.rcParams['axes.color_cycle'][1])
+#ax = data.plot(kind='hist', bins=50, normed=True, alpha=0.5, color=plt.rcParams['axes.color_cycle'][1])
+ax = data.plot(kind='hist', bins=50, normed=True, alpha=0.5, color='black')
 # Save plot limits
 dataYLim = ax.get_ylim()
 
@@ -166,7 +167,7 @@ pdf = make_pdf(best_dist, best_fir_paramms)
 # Display
 plt.figure(figsize=(12,8))
 ax = pdf.plot(lw=2, label='PDF', legend=True)
-data.plot(kind='hist', bins=50, normed=True, alpha=0.5, label='Data', legend=True, ax=ax)
+data.plot(kind='hist', bins=50, normed=True, alpha=0.5, label='Data', legend=True, ax=ax, color='black')
 
 param_names = (best_dist.shapes + ', loc, scale').split(', ') if best_dist.shapes else ['loc', 'scale']
 param_str = ', '.join(['{}={:0.2f}'.format(k,v) for k,v in zip(param_names, best_fir_paramms)])

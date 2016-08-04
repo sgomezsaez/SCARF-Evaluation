@@ -73,10 +73,10 @@ def worker(filePath, fileName):
 
 processes = []
 
-#for day in range(retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
-#                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
-#                                                cs.WIKISTATS_END_DAY)):
-for day in range(1):
+for day in range(retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
+                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
+                                                cs.WIKISTATS_END_DAY)):
+#for day in range(1):
     print "#Day %s" % day
     for hour in range(cs.THREAD_NUMBER):
         print "#Hour %s" % hour

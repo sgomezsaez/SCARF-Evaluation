@@ -10,160 +10,138 @@ import seaborn as sns
 
 rc('font', **cs.font)
 
+def plot_hourly_summary(filePath='', outputFigurePath=''):
+    fileName = filePath
+
+    df = pd.read_csv(fileName, delimiter=' ')
+
+    df.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
+                   cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
+                   cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
+                   cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
+                   cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
+                    cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+                    cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
+
+    df = ws.WorkloadSummary.sortOccurrencesPerTimeStamp(df=df, timestampColName=cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP)
+
+    arrayRequests = df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ, cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
+                                              cs.WORKLOAD_SUMMARY_STAT_STD_REQ, cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
+                                          cs.WORKLOAD_SUMMARY_STAT_SUM_REQ])
+
+    arrayBytes = df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES, cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
+                                              cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
+                                       cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
+
+    years = YearLocator()   # every year
+    months = MonthLocator()  # every month
+    yearsFmt = DateFormatter('%Y')
+    days = DayLocator()
+    daysFmt = DateFormatter('%D')
+    minutes = MinuteLocator()
+    hours = HourLocator()
+
+    # Getting TimeStamp for X-Axis
+    timeStamp_list = df[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP].tolist()
+    date_list = []
+    for i in timeStamp_list:
+        date_list.append(datetime.datetime.fromtimestamp(i))
+
+    # Creating Figure for the Requests Analysis
+    fig1 = plt.figure(figsize=(8, 6))
+    plt.suptitle('Number of Requests - Jan. 2016 Hourly Analysis', fontsize=13)
+
+    # Plotting Request Count
+    ax1 = plt.subplot(211)
+    countRequests = df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].tolist()
+    print countRequests
+    l1 = ax1.plot(date_list, countRequests, color='b')
+    ax1.xaxis.set_visible(False)
+    ax1.set_title("Sum")
+    ax1.grid(True)
+
+
+    # Plotting Request Mean
+    ax1 = plt.subplot(212)
+    countMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ].tolist()
+    l2 = ax1.plot(date_list, countMean, color='r')
+    #ax1.xaxis.set_visible(False)
+    ax1.grid(True)
+
+    # Plotting Request Standard Deviation
+
+    #ax1 = plt.subplot(313)
+    #countStd = df[cs.WORKLOAD_SUMMARY_STAT_STD_REQ].tolist()
+    #l3 = ax1.plot(date_list, countStd, color='g')
+    #ax1.set_title("Standard Deviation")
+
+    # Axis
+    ax1.xaxis.set_major_locator(DayLocator())
+    ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
+    plt.xticks(rotation=80)
+    #ax1.grid(True)
+
+
+    plt.gcf().subplots_adjust(bottom=0.26)
+
+
+
+
+    # Creating Figure for the Requests Analysis
+    fig2 = plt.figure(figsize=(8, 6))
+    plt.suptitle('Bytes per Request - Jan. 2016 Hourly Analysis', fontsize=13)
+
+    # Plotting Bytes Count
+
+    ax2 = plt.subplot(211)
+    countBytes = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES].tolist()
+    print countBytes
+    ax2.plot(date_list, countBytes, color='b')
+    ax2.xaxis.set_visible(False)
+    ax2.set_title("Sum")
+    ax2.grid(True)
+
+    # Plotting Bytes Mean
+
+    ax2 = plt.subplot(212)
+    bytesMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES].tolist()
+    ax2.plot(date_list, bytesMean, color='r')
+    #ax2.xaxis.set_visible(False)
+    ax2.grid(True)
+    ax2.set_title("Mean")
+
+    # Plotting Bytes Standard Deviation
+
+    #ax2 = plt.subplot(313)
+    #bytesStd = df[cs.WORKLOAD_SUMMARY_STAT_STD_BYTES].tolist()
+    #ax2.plot(date_list, bytesStd, color='g')
+    #ax2.set_title("Standard Deviation")
+
+    # Axis
+    ax2.xaxis.set_major_locator(HourLocator(interval=25))
+    ax2.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
+    plt.xticks(rotation=80)
+    ax2.grid(True)
+
+
+    plt.gcf().subplots_adjust(bottom=0.26)
+
+
+    # Plotting Bytes Max
+
+    # Saving Figure to PDF
+    fig1.savefig(outputFigurePath + 'hourlySummaryRequests.pdf', format='pdf')
+    fig2.savefig(outputFigurePath + 'hourlySummaryBytes.pdf', format='pdf')
+    #plt.show()
+
+
 fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
-df = pd.read_csv(fileName, delimiter=' ')
-
-df.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
-               cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
-               cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
-               cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
-               cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
-                cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
-                cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
-
-df = ws.WorkloadSummary.sortOccurrencesPerTimeStamp(df=df, timestampColName=cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP)
-
-arrayRequests = df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ, cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
-                                          cs.WORKLOAD_SUMMARY_STAT_STD_REQ, cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                                      cs.WORKLOAD_SUMMARY_STAT_SUM_REQ])
-
-arrayBytes = df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES, cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
-                                          cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
-                                   cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
-
-years = YearLocator()   # every year
-months = MonthLocator()  # every month
-yearsFmt = DateFormatter('%Y')
-days = DayLocator()
-daysFmt = DateFormatter('%D')
-minutes = MinuteLocator()
-hours = HourLocator()
-
-# Getting TimeStamp for X-Axis
-timeStamp_list = df[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP].tolist()
-date_list = []
-for i in timeStamp_list:
-    date_list.append(datetime.datetime.fromtimestamp(i))
-
-# Creating Figure for the Requests Analysis
-fig1 = plt.figure(figsize=(8, 6))
-plt.suptitle('Number of Requests - Jan. 2016 Hourly Analysis', fontsize=13)
-
-# Plotting Request Count
-ax1 = plt.subplot(311)
-countRequests = df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].tolist()
-print countRequests
-l1 = ax1.plot(date_list, countRequests, color='b')
-ax1.xaxis.set_visible(False)
-ax1.set_title("Sum")
-#ax1.set_yscale('log')
-#ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-#plt.xticks(rotation=70)
-ax1.grid(True)
-
-#ax1.xaxis.set_major_locator(days)
-#ax1.xaxis.set_major_formatter(yearsFmt)
-#ax1.xaxis.set_minor_locator(days)
-#ax1.xaxis.set_major_locator(DayLocator())
-#ax1.xaxis.set_minor_locator(HourLocator(np.arange(0, 25, 6)))
-#ax1.autoscale_view()
-#ax1.xaxis.set_ticks([])
-#plt.xticks(np.arange(len(date_list)), date_list, rotation=70)
-#ax1.scatter(np.arange(len(date_list)), countRequests, color='r')
+outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/'
+plot_hourly_summary(fileName, outputFiguresPath)
 
 
-# Plotting Request Mean
-ax1 = plt.subplot(312)
-countMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ].tolist()
-l2 = ax1.plot(date_list, countMean, color='r')
-ax1.xaxis.set_visible(False)
-ax1.set_title("Mean")
-#ax1.set_yscale('log')
-#ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-#plt.xticks(rotation=70)
-ax1.grid(True)
-
-# Plotting Request Standard Deviation
-
-ax1 = plt.subplot(313)
-countStd = df[cs.WORKLOAD_SUMMARY_STAT_STD_REQ].tolist()
-l3 = ax1.plot(date_list, countStd, color='g')
-ax1.xaxis.set_major_locator(HourLocator(interval=25))
-ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
-plt.xticks(rotation=80)
-ax1.grid(True)
-ax1.set_title("Standard Deviation")
-
-#plt.figlegend((l1, l2, l3), ('Count', 'Mean', 'Standard Deviation'), loc='lower center')
-plt.gcf().subplots_adjust(bottom=0.26)
-
-
-
-
-# Creating Figure for the Requests Analysis
-fig2 = plt.figure(figsize=(8, 6))
-plt.suptitle('Bytes per Request - Jan. 2016 Hourly Analysis', fontsize=13)
-
-# Plotting Bytes Count
-
-ax2 = plt.subplot(311)
-countBytes = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES].tolist()
-print countBytes
-ax2.plot(date_list, countBytes, color='b')
-ax2.xaxis.set_visible(False)
-ax2.set_title("Sum")
-#ax2.set_yscale('log')
-#ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-#plt.xticks(rotation=70)
-ax2.grid(True)
-
-
-#ax1.xaxis.set_major_locator(days)
-#ax1.xaxis.set_major_formatter(yearsFmt)
-#ax1.xaxis.set_minor_locator(days)
-#ax1.xaxis.set_major_locator(DayLocator())
-#ax1.xaxis.set_minor_locator(HourLocator(np.arange(0, 25, 6)))
-#ax1.autoscale_view()
-#ax1.xaxis.set_ticks([])
-#plt.xticks(np.arange(len(date_list)), date_list, rotation=70)
-#ax1.scatter(np.arange(len(date_list)), countRequests, color='r')
-
-
-# Plotting Bytes Mean
-
-ax2 = plt.subplot(312)
-bytesMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES].tolist()
-ax2.plot(date_list, bytesMean, color='r')
-ax2.xaxis.set_visible(False)
-#ax2.set_yscale('log')
-#ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
-#plt.xticks(rotation=70)
-ax2.grid(True)
-ax2.set_title("Mean")
-
-# Plotting Bytes Standard Deviation
-
-ax2 = plt.subplot(313)
-bytesStd = df[cs.WORKLOAD_SUMMARY_STAT_STD_BYTES].tolist()
-ax2.plot(date_list, bytesStd, color='g')
-ax2.xaxis.set_major_locator(HourLocator(interval=25))
-ax2.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
-plt.xticks(rotation=80)
-ax2.grid(True)
-ax2.set_title("Standard Deviation")
-
-plt.gcf().subplots_adjust(bottom=0.26)
-
-
-# Plotting Bytes Max
-
-
-# Saving Figure to PDF
-fig1.savefig(cs.FIGURES_LOCAL_PATH + '/'+ 'hourlySummaryRequests.pdf', format='pdf')
-fig2.savefig(cs.FIGURES_LOCAL_PATH + '/'+ 'hourlySummaryBytes.pdf', format='pdf')
-#plt.show()
 
