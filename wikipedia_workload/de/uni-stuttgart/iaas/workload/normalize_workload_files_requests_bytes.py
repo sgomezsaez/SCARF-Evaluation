@@ -41,10 +41,10 @@ def scale_workload_files_requests(inputFileList=[], scaled_file_list=[], scaleMi
         #df[[cs.WIKISTATS_COL_REQUESTS]] = df[cs.WIKISTATS_COL_REQUESTS].astype(int)
 
         # Deleting Entries that Number of Requests = 0
-        print df.describe()
+        #print df.describe()
         df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < 1].index)
-        print df.describe()
-        print df
+        #print df.describe()
+        #print df
 
         # Saving Workload
         print "Saving Workload to " + scaled_file_list[n]
