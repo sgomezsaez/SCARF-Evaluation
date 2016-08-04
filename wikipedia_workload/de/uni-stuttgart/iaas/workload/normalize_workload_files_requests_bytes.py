@@ -37,12 +37,12 @@ def scale_workload_files_requests(inputFileList=[], scaled_file_list=[], scaleMi
         x_scaled = min_max_scaler.fit_transform(x)
         df_scaled = pd.DataFrame(x_scaled, columns=[cs.WIKISTATS_COL_REQUESTS], index=df.index.values)
         df[[cs.WIKISTATS_COL_REQUESTS]] = df_scaled[[cs.WIKISTATS_COL_REQUESTS]]
-        df[[cs.WIKISTATS_COL_REQUESTS]] = df[[cs.WIKISTATS_COL_REQUESTS]].round(decimals=0)
-        df[[cs.WIKISTATS_COL_REQUESTS]] = df[cs.WIKISTATS_COL_REQUESTS].astype(int)
+        #df[[cs.WIKISTATS_COL_REQUESTS]] = df[[cs.WIKISTATS_COL_REQUESTS]].round(decimals=0)
+        #df[[cs.WIKISTATS_COL_REQUESTS]] = df[cs.WIKISTATS_COL_REQUESTS].astype(int)
 
         # Deleting Entries that Number of Requests = 0
         print df.describe()
-        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] == 0].index)
+        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < 1].index)
         print df.describe()
         print df
 
