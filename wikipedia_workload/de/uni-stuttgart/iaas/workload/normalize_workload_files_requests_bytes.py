@@ -5,14 +5,14 @@ from sklearn import preprocessing
 import hourly_analysis as hs
 
 
-def scale_workload_files_requests(inputFileList=[], scaleMin=0, scaleMax=1000):
+def scale_workload_files_requests(inputFileList=[], scaled_file_list=[], scaleMin=0, scaleMax=1000):
 
     df_processed = pd.DataFrame(columns=[cs.WIKISTATS_COL_PROJECT, cs.WIKISTATS_COL_PAGE,
                                          cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE])
     fileList = inputFileList
 
 
-    for i in fileList:
+    for n, i in enumerate(fileList):
         fileName = cs.DATA_LOCAL_PATH + i + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
         print "### Processing File: %s" % fileName
         print csvHelper.get_time_from_file_name(i)
@@ -25,8 +25,11 @@ def scale_workload_files_requests(inputFileList=[], scaleMin=0, scaleMax=1000):
         description = df.describe()
         mean_requests = description.iloc[1][cs.WIKISTATS_COL_REQUESTS]
         mean_bytes = description.iloc[1][cs.WIKISTATS_COL_SIZE]
-        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
-        df = df.drop(df[df[cs.WIKISTATS_COL_SIZE] < mean_bytes].index)
+        #df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
+        #df = df.drop(df[df[cs.WIKISTATS_COL_SIZE] < mean_bytes].index)
+
+        # Cleaning Sample. Deleting Entries that Number of Requests = 0
+        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] == 0].index)
 
         # Scaling workload distribution (Num of Requests) between 1 and 1000
         x = df.as_matrix(columns=[cs.WIKISTATS_COL_REQUESTS]) #returns a numpy array
@@ -37,8 +40,15 @@ def scale_workload_files_requests(inputFileList=[], scaleMin=0, scaleMax=1000):
         df[[cs.WIKISTATS_COL_REQUESTS]] = df[[cs.WIKISTATS_COL_REQUESTS]].round(decimals=0)
         df[[cs.WIKISTATS_COL_REQUESTS]] = df[cs.WIKISTATS_COL_REQUESTS].astype(int)
 
+        # Deleting Entries that Number of Requests = 0
+        print df.describe()
+        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] == 0].index)
+        print df.describe()
+        print df
+
         # Saving Workload
-        path = cs.DATA_LOCAL_PATH + i + cs.DATA_LOCAL_FILE_SCALED + '.csv'
+        print "Saving Workload to " + scaled_file_list[n]
+        path = cs.DATA_LOCAL_PATH + scaled_file_list[n]
         df.to_csv(path_or_buf=path, sep=' ', index=False, header=False)
 
 
@@ -49,14 +59,12 @@ non_scaled_file_list = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN
 
 scaled_file_list = []
 for i in non_scaled_file_list:
-    scaled_file_list.append(i + cs.DATA_LOCAL_FILE_SCALED + '.csv')
+    scaled_file_list.append(i + cs.DATA_LOCAL_FILE_SCALED + '0-10000' + '.csv')
 
 scaled_file_summary_path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
                str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_HOURLY_SUMMARY + \
-                           cs.DATA_LOCAL_FILE_SCALED + '.csv'
+                           cs.DATA_LOCAL_FILE_SCALED + '0-10000' + '.csv'
 
-print scaled_file_list
-
-scale_workload_files_requests(non_scaled_file_list, 0, 1000)
+scale_workload_files_requests(non_scaled_file_list, scaled_file_list, 0, 10000)
 hs.create_hourly_analysis(scaled_file_list, scaled_file_summary_path)
 

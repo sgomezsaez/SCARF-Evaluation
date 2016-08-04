@@ -7,7 +7,7 @@ import calendar
 import constants as cs
 from multiprocessing import Lock
 
-lock = Lock()
+#lock = Lock()
 
 class WorkloadSummary:
 
@@ -59,12 +59,13 @@ class WorkloadSummary:
         self.workloadHourSummary[timeStamp] = statDescriptionDF
 
     def addWorkloadSample(self, df, year, month, day, hour):
-        message = "Adding Workload Sample for " + str(year) + str(month) + str(day) + str(hour)
-        print "Adding Workload Sample for " + message
-        df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]] = df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]].astype(float)
+        timestamp = self.getDateTimeStamp(year, month, day, hour)
+        print "Adding Workload Sample for " + self.getStringTime(timestamp)
+
+        #df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]] = df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]].astype(float)
+
         for row in df.itertuples():
             # each row is a tuple of (index,project, page, num_requests, bytes)
-            #print "Processing Row " + str(row[0])
             page = row[2]
             # Workload summary does not exist for this timestamp
             if self.workload_summary is not None:
@@ -74,8 +75,7 @@ class WorkloadSummary:
                                     page].index.tolist()[0]
 
 
-                    #print "Acquiring lock"
-                    lock.acquire()
+                    #lock.acquire()
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS,
                                             self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_TOTAL_REQUESTS]
                                                 + row[3])
@@ -84,8 +84,9 @@ class WorkloadSummary:
                                                 self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_BYTES_PER_REQUEST])
                     self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_FREQUENCY,
                                                 self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_FREQUENCY] + 1)
-                    lock.release()
-                    #print "Releasing lock"
+                    self.workload_summary.set_value(index, cs.WORKLOAD_SUMMARY_COL_FREQUENCY,
+                                                self.workload_summary.loc[[index]][cs.WORKLOAD_SUMMARY_COL_FREQUENCY] + 1)
+                    #lock.release()
                 else:
                     # Create Entry in Workload Summary
                     requestOccurrence = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
@@ -93,18 +94,18 @@ class WorkloadSummary:
                                                  self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]],
                                                columns=cs.WORKLOAD_SUMMARY_COL)
                     #print "Acquiring lock"
-                    lock.acquire()
+                    #lock.acquire()
                     self.workload_summary = self.workload_summary.append(requestOccurrence, ignore_index=True)
-                    lock.release()
+                    #lock.release()
                     #print "Releasing lock"
             else:
                 # Create DataFrame if Null
                 #print "Acquiring lock"
-                lock.acquire()
+                #lock.acquire()
                 self.workload_summary = pd.DataFrame([[row[1], page, row[3], row[4], row[4],
                                                self.getDateTimeStamp(self.beginYear, self.beginMonth, self.beginDay,self.beginHour),
                                                self.getDateTimeStamp(self.endYear, self.endMonth, self.endDay, self.endHour), 1]], columns=cs.WORKLOAD_SUMMARY_COL)
-                lock.release()
+                #lock.release()
                 #print "Releasing lock"
 
     @staticmethod

@@ -27,6 +27,8 @@ WIKISTATS_COL_PAGE = 'col_page'
 WIKISTATS_COL_REQUESTS = 'col_requests'
 WIKISTATS_COL_SIZE = 'col_size'
 
+WIKISTATS_COL_TIMESTAMP = 'timestamp'
+
 WIKISTATS_DELIMITER = ' '
 
 wikibooks_del = ".b"
@@ -45,6 +47,7 @@ DATA_LOCAL_FILE_FILTERED = "_filtered"
 DATA_LOCAL_FILE_MONTHLY = "_monthly"
 DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
 DATA_LOCAL_FILE_SCALED = "_scaled"
+DATA_LOCAL_FILE_NO_CLEAN = "_no_clean"
 
 
 

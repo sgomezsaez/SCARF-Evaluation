@@ -14,20 +14,24 @@ def create_hourly_analysis(fileList=[], outPutFilePath= ''):
                            cs.WIKISTATS_HOURS[len(cs.WIKISTATS_HOURS)-1], cs.WORKLOAD_SUMMARY_COL)
 
     for i in fileList:
-        fileName = cs.DATA_LOCAL_PATH + i + '.csv'
+        fileName = cs.DATA_LOCAL_PATH + i
         print "### Processing File: %s" % fileName
         print csvHelper.get_time_from_file_name(i)
         timeInterval = csvHelper.get_time_from_file_name(i)
         # Append each workload file to a data frame
         df = pd.read_csv(fileName, delimiter=' ')
         df.columns = [cs.WIKISTATS_COL_PROJECT, cs.WIKISTATS_COL_PAGE, cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]
+
+        # Cleaning Sample. Deleting Entries that Number of Requests = 0
+        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] == 0].index)
+
         # Cleaning Sample. Deleting Entries that Number of Requests < mean number of requests
         description = df.describe()
         mean_requests = description.iloc[1][cs.WIKISTATS_COL_REQUESTS]
         mean_bytes = description.iloc[1][cs.WIKISTATS_COL_SIZE]
 
-        df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
-        df = df.drop(df[df[cs.WIKISTATS_COL_SIZE] < mean_bytes].index)
+        #df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
+        #df = df.drop(df[df[cs.WIKISTATS_COL_SIZE] < mean_bytes].index)
 
         w.addWorkloadHourStatSummary(df, int(timeInterval[0]), int(timeInterval[1]),
                                      int(timeInterval[2]), int(timeInterval[3]))
@@ -49,7 +53,7 @@ def create_hourly_analysis(fileList=[], outPutFilePath= ''):
         workloadSummary = workloadSummary.append(w.getDataFrameHourlyReport(i), ignore_index=True)
 
 
-    print "Saving to File: " + path
+    print "Saving to File: " + outPutFilePath
     workloadSummary.to_csv(path_or_buf=outPutFilePath, sep=' ', columns=[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
                                                                cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
                                                                cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
@@ -68,12 +72,15 @@ fileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WI
                                                 cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
                                                    cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
 
+#path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
+#               str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_HOURLY_SUMMARY + '_' + cs.DATA_LOCAL_FILE_NO_CLEAN + '.csv'
+
 path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
                str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_HOURLY_SUMMARY + '.csv'
 
 fileListFiltered = []
 
 for i in fileList:
-    fileListFiltered.append(i + cs.DATA_LOCAL_FILE_FILTERED)
+    fileListFiltered.append(i + cs.DATA_LOCAL_FILE_FILTERED + '.csv')
 
 #create_hourly_analysis(fileList=fileListFiltered, outPutFilePath=path)

@@ -2,7 +2,7 @@ import workload.constants as cs
 import pandas as pd
 import csvHelper.csvHelper as csvHelper
 import workload.WorkloadSummary as ws
-import os
+import numpy as np
 
 from multiprocessing import Process, Lock
 from datetime import date, timedelta
@@ -10,22 +10,46 @@ from random import randint
 from time import sleep
 import os
 
-os.system("taskset -p 0xff %d" % os.getpid())
+#os.system("taskset -p 0xff %d" % os.getpid())
 
-lock = Lock()
+#lock = Lock()
 
-fileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
-                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
-                                                   cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
+def merge_hourly_workload_files(fileList, outputFilePath, beginYear, beginMonth, beginDay, endYear, endMonth, endDay):
 
-# Create the Workload Summary for the set of files
+    w = ws.WorkloadSummary(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH, cs.WIKISTATS_BEGIN_DAY,
+                           cs.WIKISTATS_HOURS[0], cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
+                           cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS[len(cs.WIKISTATS_HOURS)-1],
+                           cs.WORKLOAD_SUMMARY_COL)
 
-w = ws.WorkloadSummary(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH, cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_HOURS[0],
-                       cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH, cs.WIKISTATS_END_DAY,
-                       cs.WIKISTATS_HOURS[len(cs.WIKISTATS_HOURS)-1], cs.WORKLOAD_SUMMARY_COL)
+    for i in range(retrieve_number_of_days(beginYear, beginMonth, beginDay, endYear, endMonth, endDay)):
+        filePath = cs.DATA_LOCAL_PATH + fileList[i] + '.csv'
+        print "Processing File " + filePath
+        w = worker(filePath, fileList[i], w)
+        os.remove(filePath)
 
-#print fileList[0]
-#print csvHelper.get_timestamp_from_file_name(fileList[0])
+    print "Processed Workload Summaries: Writing to file to " + outputFilePath
+    w.workload_summary.to_csv(path_or_buf=outputFilePath, sep=' ', columns=cs.WORKLOAD_SUMMARY_COL, index=False)
+
+
+
+#for day in range(retrieve_number_of_days(beginYear, beginMonth, beginDay, endYear, endMonth, endDay)):
+#for day in range(1):
+#    print "#Day %s" % day
+#    for hour in range(cs.THREAD_NUMBER):
+#        print "#Hour %s" % hour
+#        if day == 0:
+#            filePath = cs.DATA_LOCAL_PATH + fileList[day * cs.THREAD_NUMBER + hour] + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
+#            fileName = fileList[day * cs.THREAD_NUMBER + hour]
+
+#        else:
+#            if day * cs.THREAD_NUMBER + (hour + 1) < len(fileList):
+#                filePath = cs.DATA_LOCAL_PATH + fileList[day * cs.THREAD_NUMBER + (hour + 1)] + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
+#                fileName = fileList[day * cs.THREAD_NUMBER + hour]
+#        print filePath
+#        t = Process(target=worker, args=(filePath, fileName))
+#        processes.append(t)
+
+#print processes
 
 
 def retrieve_number_of_days(beginYear, beginMonth, beginday, endYear, endMonth, endday):
@@ -34,19 +58,13 @@ def retrieve_number_of_days(beginYear, beginMonth, beginday, endYear, endMonth, 
     return len([a + timedelta(days=x) for x in range((b-a).days + 1)])
 
 
-def worker(filePath, fileName):
-    print "### Processing File: %s" % filePath
+def worker(filePath, fileName, w):
+    print "### Worker Processing File: %s" % filePath
     # Append each workload file to a data frame
     df = pd.read_csv(filePath, delimiter=' ')
     df.columns = [cs.WIKISTATS_COL_PROJECT, cs.WIKISTATS_COL_PAGE, cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]
     df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]] = df[[cs.WIKISTATS_COL_REQUESTS, cs.WIKISTATS_COL_SIZE]].astype(float)
 
-    # Cleaning Sample. Deleting Entries that Number of Requests < mean number of requests
-    description = df.describe()
-    mean_requests = description.iloc[1][cs.WIKISTATS_COL_REQUESTS]
-    mean_bytes = description.iloc[1][cs.WIKISTATS_COL_SIZE]
-
-    df = df.drop(df[df[cs.WIKISTATS_COL_REQUESTS] < mean_requests].index)
     # Sorting Data Sample - Ordering Number of Requests Descending
     df = w.sortOccurrencePerNumberOfRequests(df)
 
@@ -59,67 +77,29 @@ def worker(filePath, fileName):
                         csvHelper.get_timestamp_from_file_name(fileName).day,
                         csvHelper.get_timestamp_from_file_name(fileName).hour)
 
-    path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
-           str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + '.csv'
-    print "Processed Workload Summaries: Writing to file to " + path
-    lock.acquire()
-    fo = open(path, 'w+')
-    w.workload_summary.to_csv(path_or_buf=fo, sep=' ', columns=cs.WORKLOAD_SUMMARY_COL, index=False)
-    fo.close()
-    lock.release()
-    print "### Processed File: %s" % filePath
-    print "### Deleting File: %s" % filePath
-    os.remove(filePath)
+    return w
 
-processes = []
 
-for day in range(retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
+
+fileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
                                                 cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
-                                                cs.WIKISTATS_END_DAY)):
-#for day in range(1):
-    print "#Day %s" % day
-    for hour in range(cs.THREAD_NUMBER):
-        print "#Hour %s" % hour
-        if day == 0:
-            filePath = cs.DATA_LOCAL_PATH + fileList[day * cs.THREAD_NUMBER + hour] + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
-            fileName = fileList[day * cs.THREAD_NUMBER + hour]
+                                                   cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
 
-        else:
-            if day * cs.THREAD_NUMBER + (hour + 1) < len(fileList):
-                filePath = cs.DATA_LOCAL_PATH + fileList[day * cs.THREAD_NUMBER + (hour + 1)] + cs.DATA_LOCAL_FILE_FILTERED + '.csv'
-                fileName = fileList[day * cs.THREAD_NUMBER + hour]
-        print filePath
-        t = Process(target=worker, args=(filePath, fileName))
-        processes.append(t)
+fileListFiltered = []
+for i in fileList:
+    fileListFiltered.append(i + cs.DATA_LOCAL_FILE_FILTERED)
 
-print processes
+fileListScaled = []
 
-# Starting 23 Threads
-#for i in range(cs.THREAD_NUMBER):
-#    print "starting thread " + str(i)
-#    threads[i].start()
+for i in fileList:
+    fileListScaled.append(i + cs.DATA_LOCAL_FILE_SCALED)
 
-# Starting 24..endDays threads that will join when the 23 first threads finish
-#for j in range(24, retrieve_number_of_days(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
-#                                                cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
-#                                                cs.WIKISTATS_END_DAY)):
-#    print "join thread " + str(j)
-#    threads[j].join()
-
-[t.start() for t in processes]
-#[t.join() for t in threads]
-
-for t in processes:
-    print t.is_alive()
-    if t.is_alive():
-        sleep(20)
+outputFilePath = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
+           str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_MONTHLY + \
+                 '_' + cs.DATA_LOCAL_FILE_SCALED + '_Merged' + '.csv'
 
 
-
-
-
-
-
-
-
+merge_hourly_workload_files(fileListScaled, outputFilePath, cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
+                            cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR,
+                            cs.WIKISTATS_END_MONTH, cs.WIKISTATS_END_DAY)
 

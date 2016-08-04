@@ -10,7 +10,7 @@ import seaborn as sns
 
 rc('font', **cs.font)
 
-def plot_hourly_summary(filePath='', outputFigurePath=''):
+def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigureSummaryBytes='.'):
     fileName = filePath
 
     df = pd.read_csv(fileName, delimiter=' ')
@@ -122,7 +122,8 @@ def plot_hourly_summary(filePath='', outputFigurePath=''):
     #ax2.set_title("Standard Deviation")
 
     # Axis
-    ax2.xaxis.set_major_locator(HourLocator(interval=25))
+    #ax2.xaxis.set_major_locator(HourLocator(interval=25))
+    ax2.xaxis.set_major_locator(DayLocator())
     ax2.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
     plt.xticks(rotation=80)
     ax2.grid(True)
@@ -134,14 +135,17 @@ def plot_hourly_summary(filePath='', outputFigurePath=''):
     # Plotting Bytes Max
 
     # Saving Figure to PDF
-    fig1.savefig(outputFigurePath + 'hourlySummaryRequests.pdf', format='pdf')
-    fig2.savefig(outputFigurePath + 'hourlySummaryBytes.pdf', format='pdf')
+    fig1.savefig(outputFigureSummaryRequests, format='pdf')
+    fig2.savefig(outputFigureSummaryBytes, format='pdf')
     #plt.show()
 
 
-fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
+fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-1000.csv"
 outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/'
-plot_hourly_summary(fileName, outputFiguresPath)
+outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scale0-1000.pdf"
+outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scale0-1000.pdf"
+plot_hourly_summary(fileName, outputFigureSummaryRequests, outputFigureSummaryBytes)
 
 
 
