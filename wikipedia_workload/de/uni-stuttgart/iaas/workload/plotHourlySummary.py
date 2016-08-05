@@ -37,6 +37,25 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
                                               cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
                                        cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
 
+
+    df_non_scaled = pd.read_csv('/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/1-2016_1-2016_hourly_summary_no_clean.csv', delimiter=' ')
+    df_non_scaled.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
+                   cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
+                   cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
+                   cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
+                   cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
+                   cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
+                    cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+                    cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
+
+    print df_non_scaled[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
+    print df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
+    print df_non_scaled[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum() - df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
+    #print df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ])
+
     years = YearLocator()   # every year
     months = MonthLocator()  # every month
     yearsFmt = DateFormatter('%Y')
@@ -141,10 +160,17 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
 
 
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
-fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-1000.csv"
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_RobustScaler.csv"
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-1000.csv"
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-10000.csv"
+fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor100Scaling.csv"
 outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/'
-outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scale0-1000.pdf"
-outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scale0-1000.pdf"
+#outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scaleRobustScaler.pdf"
+#outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scaleRobustScaler.pdf"
+#outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scale0-1000.pdf"
+#outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scale0-1000.pdf"
+outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scalefactor100.pdf"
+outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scalefactor100.pdf"
 plot_hourly_summary(fileName, outputFigureSummaryRequests, outputFigureSummaryBytes)
 
 
