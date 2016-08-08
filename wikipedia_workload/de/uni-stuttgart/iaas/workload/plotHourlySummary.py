@@ -100,7 +100,7 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
 
     # Axis
     ax1.xaxis.set_major_locator(DayLocator())
-    ax1.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
+    ax1.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
     plt.xticks(rotation=80)
     #ax1.grid(True)
 
@@ -143,7 +143,7 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     # Axis
     #ax2.xaxis.set_major_locator(HourLocator(interval=25))
     ax2.xaxis.set_major_locator(DayLocator())
-    ax2.xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M'))
+    ax2.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
     plt.xticks(rotation=80)
     ax2.grid(True)
 

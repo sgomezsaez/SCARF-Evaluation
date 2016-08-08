@@ -11,9 +11,19 @@ WIKISTATS_UNIQUE_DEVICES_TIMESTAMP = 'timestamp'
 WIKISTATS_UNIQUE_DEVICES_EN_WIKI = 'en.wikipedia.org'
 WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE = 'en.m.wikipedia.org'
 WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL = 'en.wikipedia.org.total'
+WIKISTATS_TOTAL_DAILY_VISITS = 'en.wikipedia.org.daily_visits'
+WIKISTATS_TOTAL_NEW_USERS = 'en.wikipedia.org.newUsers'
+WIKISTATS_DAILY_DONATIONS = 'en.wikipedia.org.donations'
 
-WIKISTATS_UNIQUE_DEVICES_COL_LIST = [WIKISTATS_UNIQUE_DEVICES_TIMESTAMP, WIKISTATS_UNIQUE_DEVICES_EN_WIKI,
-                                     WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE, WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL]
+
+WIKISTATS_UNIQUE_DEVICES_COL_LIST = [WIKISTATS_UNIQUE_DEVICES_TIMESTAMP, WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE,
+                                     WIKISTATS_UNIQUE_DEVICES_EN_WIKI, WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL,
+                                     WIKISTATS_TOTAL_DAILY_VISITS, WIKISTATS_TOTAL_NEW_USERS,
+                                     WIKISTATS_DAILY_DONATIONS]
+
+
+
+WIKISTATS_UNIQUE_DEVICES_FILE_PATH = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/unique_users_monthly.csv'
 
 # Wikistats HTTP Retrieval properties
 
