@@ -126,8 +126,6 @@ def factor_scale_workload_files_requests(inputFileList=[], scaled_file_list=[], 
         # Scaling workload distribution (Num of Requests) between 1 and 1000
         x = df.as_matrix(columns=[cs.WIKISTATS_COL_REQUESTS]) #returns a numpy array
         x_scaled = x / factor
-        print np.sum(x)
-        print np.sum(x_scaled)
         df_scaled = pd.DataFrame(x_scaled, columns=[cs.WIKISTATS_COL_REQUESTS], index=df.index.values)
         df[[cs.WIKISTATS_COL_REQUESTS]] = df_scaled[[cs.WIKISTATS_COL_REQUESTS]]
         # Deleting Entries that Number of Requests = 0

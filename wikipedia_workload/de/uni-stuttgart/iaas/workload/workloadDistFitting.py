@@ -106,75 +106,70 @@ def make_pdf(dist, params, size=10000):
 
 ###### Loading and Fitting Data
 
+def load_and_fit_data(fileName='', df=None, bins=200):
+
+    if fileName != '':
+        df = pd.read_csv(fileName, delimiter=' ')
+
+        df.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
+                       cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
+                       cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
+                       cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
+                       cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
+                       cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
+                       cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
+                       cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
+                       cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
+                        cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+                        cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
+
+        df = ws.WorkloadSummary.sortOccurrencesPerTimeStamp(df=df, timestampColName=cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP)
+        # Getting TimeStamp for X-Axis
+        timeStamp_list = df[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP].tolist()
+        date_list = []
+        for i in timeStamp_list:
+            date_list.append(datetime.datetime.fromtimestamp(i))
+    else:
+        timeStamp_list = range(1, 31)
+
+    data = df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ]
+    #data = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
+
+    # Plot for comparison
+    plt.figure(figsize=(12,8))
+    #ax = data.plot(kind='hist', bins=50, normed=True, alpha=0.5, color=plt.rcParams['axes.color_cycle'][1])
+    ax = data.plot(kind='hist', bins=bins, normed=True, alpha=0.5, color='black')
+    # Save plot limits
+    dataYLim = ax.get_ylim()
+
+    # Find best fit distribution
+    best_fit_name, best_fir_paramms = best_fit_distribution(data, bins, ax)
+    best_dist = getattr(st, best_fit_name)
+
+    # Update plots
+    ax.set_ylim(dataYLim)
+    ax.set_title(u'Bytes Number of Requests/Hour - All Distributions Fitting')
+    ax.set_xlabel(u'Bytes per Request')
+    ax.set_ylabel('Frequency')
+
+    # Make PDF
+    pdf = make_pdf(best_dist, best_fir_paramms)
+
+    # Display
+    plt.figure(figsize=(12,8))
+    ax = pdf.plot(lw=2, label='PDF', legend=True)
+    data.plot(kind='hist', bins=bins, normed=True, alpha=0.5, label='Data', legend=True, ax=ax, color='black')
+
+    param_names = (best_dist.shapes + ', loc, scale').split(', ') if best_dist.shapes else ['loc', 'scale']
+    param_str = ', '.join(['{}={:0.2f}'.format(k,v) for k,v in zip(param_names, best_fir_paramms)])
+    dist_str = '{}({})'.format(best_fit_name, param_str)
+
+    ax.set_title(u'Requests per Day - Best fit distribution \n' + dist_str)
+    ax.set_xlabel(u'Number of Requests')
+    ax.set_ylabel('Frequency')
+
+    plt.show()
+
+
+
 fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
-df = pd.read_csv(fileName, delimiter=' ')
-
-df.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
-               cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
-               cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
-               cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
-               cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-               cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
-                cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
-                cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
-
-df = ws.WorkloadSummary.sortOccurrencesPerTimeStamp(df=df, timestampColName=cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP)
-
-arrayRequests = df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ, cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
-                                          cs.WORKLOAD_SUMMARY_STAT_STD_REQ, cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                                      cs.WORKLOAD_SUMMARY_STAT_SUM_REQ])
-
-arrayBytes = df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES, cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
-                                          cs.WORKLOAD_SUMMARY_STAT_STD_BYTES, cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
-                                   cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
-
-# Getting TimeStamp for X-Axis
-timeStamp_list = df[cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP].tolist()
-date_list = []
-for i in timeStamp_list:
-    date_list.append(datetime.datetime.fromtimestamp(i))
-
-#data = df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ]
-data = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
-
-
-
-
-
-# Plot for comparison
-plt.figure(figsize=(12,8))
-#ax = data.plot(kind='hist', bins=50, normed=True, alpha=0.5, color=plt.rcParams['axes.color_cycle'][1])
-ax = data.plot(kind='hist', bins=50, normed=True, alpha=0.5, color='black')
-# Save plot limits
-dataYLim = ax.get_ylim()
-
-# Find best fit distribution
-best_fit_name, best_fir_paramms = best_fit_distribution(data, 200, ax)
-best_dist = getattr(st, best_fit_name)
-
-# Update plots
-ax.set_ylim(dataYLim)
-ax.set_title(u'Bytes Number of Requests/Hour - All Distributions Fitting')
-ax.set_xlabel(u'Bytes per Request')
-ax.set_ylabel('Frequency')
-
-# Make PDF
-pdf = make_pdf(best_dist, best_fir_paramms)
-
-# Display
-plt.figure(figsize=(12,8))
-ax = pdf.plot(lw=2, label='PDF', legend=True)
-data.plot(kind='hist', bins=50, normed=True, alpha=0.5, label='Data', legend=True, ax=ax, color='black')
-
-param_names = (best_dist.shapes + ', loc, scale').split(', ') if best_dist.shapes else ['loc', 'scale']
-param_str = ', '.join(['{}={:0.2f}'.format(k,v) for k,v in zip(param_names, best_fir_paramms)])
-dist_str = '{}({})'.format(best_fit_name, param_str)
-
-ax.set_title(u'Bytes Number of Requests/Hour - Best fit distribution \n' + dist_str)
-ax.set_xlabel(u'Bytes per Requests')
-ax.set_ylabel('Frequency')
-
-plt.show()

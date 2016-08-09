@@ -58,7 +58,39 @@ def plot_daily_access_summary(filePath='', outputFigureSummaryAccess='.'):
     # Saving Figure to PDF
     fig1.savefig(outputFigureSummaryAccess, format='pdf')
 
+def daily_access_summary_scale(filePath='', outputFilePath='.', scaleFactor=100):
+    df = pd.read_csv(fileName, delimiter=' ')
+
+    df.columns = cs.WIKISTATS_UNIQUE_DEVICES_COL_LIST
+
+    df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE] = (df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE] / scaleFactor).astype(int)
+    df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI] = (df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI] / scaleFactor).astype(int)
+    df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL] = (df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL] / scaleFactor).astype(int)
+
+
+    # Deleting Entries that Number of Requests = 0
+    df = df.drop(df[(df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE] < 1) &
+                    (df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI] < 1) &
+                    (df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL] < 1.0)].index)
+
+    print "Saving Workload to " + outputFilePath
+
+    path = outputFilePath
+    df.to_csv(path_or_buf=path, sep=' ', index=False)
+
+def users_per_day(filePath=''):
+    df = pd.read_csv(fileName, delimiter=' ')
+    return df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL].tolist()
+
+def donations_per_day(filePath=''):
+    df = pd.read_csv(fileName, delimiter=' ')
+    return df[cs.WIKISTATS_DAILY_DONATIONS].tolist()
+
+
 fileName = cs.WIKISTATS_UNIQUE_DEVICES_FILE_PATH
-outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/' + "dailySummaryAccesses_scaled100.pdf"
-outputFigureSummaryAccesses = outputFiguresPath
-plot_daily_access_summary(fileName, outputFiguresPath)
+#outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/' + "dailySummaryAccesses_scaled100.pdf"
+#outputFigureSummaryAccesses = outputFiguresPath
+#plot_daily_access_summary(fileName, outputFiguresPath)
+
+outputScaledFile = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor100.csv'
+daily_access_summary_scale(fileName, outputScaledFile, scaleFactor=100)
