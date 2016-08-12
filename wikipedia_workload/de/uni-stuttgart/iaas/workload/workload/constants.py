@@ -4,6 +4,7 @@ WIKISTATS_PROJECTCOUNT = "projectcounts"
 
 WIKISTATS_FILTER_VALUES = ["en"]
 
+WIKISTATS_FILE_SCALED_100_SUFFIX = '_scaled_factor100Scaling'
 # Wikistats Unique Devices Properties
 WIKISTATS_UNIQUE_DEVICES_URL = "https://dumps.wikimedia.org/other/unique_devices/2016/2016-01/"
 
@@ -107,3 +108,9 @@ WORKLOAD_SUMMARY_COL = [WORKLOAD_SUMMARY_COL_PROJECT, WORKLOAD_SUMMARY_COL_PAGE,
 font = {
 
         'size'   : 8}
+
+# Generated Workload Config
+GENERATED_WORKLOAD_COL_TIMESTAMP = 'timestamp'
+GENERATED_WORKLOAD_COL_SUM_REQS = 'hourly_sum_req'
+GENERATED_WORKLOAD_COL_DAILY_PROPORTION_REQS = 'daily_proportion_reqs'
+GENERATED_WORKLOAD_COL_HOURLY_CONCURRENT_USERS = 'hourly_concurrent_users'

@@ -79,11 +79,11 @@ def daily_access_summary_scale(filePath='', outputFilePath='.', scaleFactor=100)
     df.to_csv(path_or_buf=path, sep=' ', index=False)
 
 def users_per_day(filePath=''):
-    df = pd.read_csv(fileName, delimiter=' ')
+    df = pd.read_csv(filePath, delimiter=' ')
     return df[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL].tolist()
 
 def donations_per_day(filePath=''):
-    df = pd.read_csv(fileName, delimiter=' ')
+    df = pd.read_csv(filePath, delimiter=' ')
     return df[cs.WIKISTATS_DAILY_DONATIONS].tolist()
 
 
@@ -92,5 +92,5 @@ fileName = cs.WIKISTATS_UNIQUE_DEVICES_FILE_PATH
 #outputFigureSummaryAccesses = outputFiguresPath
 #plot_daily_access_summary(fileName, outputFiguresPath)
 
-outputScaledFile = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor100.csv'
-daily_access_summary_scale(fileName, outputScaledFile, scaleFactor=100)
+#outputScaledFile = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor100.csv'
+#daily_access_summary_scale(fileName, outputScaledFile, scaleFactor=100)

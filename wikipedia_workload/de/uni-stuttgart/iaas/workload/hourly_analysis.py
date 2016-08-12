@@ -156,7 +156,6 @@ def calculate_daily_probability(summary_file):
 
     #print daily_requests_sum.to_frame()
     prob_dist = wdf.best_fit_distribution(daily_requests_sum, bins=15)
-    print prob_dist
     #wdf.load_and_fit_data(df=daily_requests_sum.to_frame(), bins=15)
 
     daily_probability = []

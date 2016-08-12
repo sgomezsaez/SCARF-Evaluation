@@ -40,7 +40,7 @@ def get_time_from_file_name(fileName):
     return [year, month, day, hour]
 
 
-def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMonth, endday, hours, count):
+def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMonth, endday, hours, count, suffix=''):
     a = date(beginYear, beginMonth, beginday)
     b = date(endYear, endMonth, endday)
 
@@ -49,11 +49,15 @@ def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMo
     if dd.__len__() == 0:
         for h in hours:
             fileName = build_file_name(str(beginYear).zfill(2), str(beginMonth).zfill(2), str(beginday).zfill(2), h, count)
+            if suffix != '':
+                fileName = fileName + suffix
             fileList.append(fileName)
     else:
         for d in dd:
             for h in hours:
                 fileName = build_file_name(d.isoformat().split('-')[0], d.isoformat().split('-')[1], d.isoformat().split('-')[2], h, count)
+                if suffix != '':
+                    fileName = fileName + suffix
                 fileList.append(fileName)
 
     return fileList
