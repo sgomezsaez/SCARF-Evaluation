@@ -43,6 +43,9 @@ for index,row in df_workload_config.iterrows():
                            cs.ARGUMENTS_JMETER_HTTP_HOST_VAR: cs.ARGUMENTS_JMETER_HTTP_HOST_VALUE,
                            cs.ARGUMENTS_JMETER_HTTP_PORT_VAR: cs.ARGUMENTS_JMETER_HTTP_PORT_VALUE,
                            cs.ARGUMENTS_JMETER_HTTP_PATH_VAR: cs.ARGUMENTS_JMETER_HTTP_PATH_VALUE,
+                           cs.ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VAR : cs.ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE,
+                           cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VAR: cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE,
+                           cs.ARGUMENTS_JMETER_RESULTS_PATH_VAR: cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE
                            }
 
     print "Processing File: " + generatedWorkloadFileList[count_workload_file_list]
@@ -61,10 +64,10 @@ for index,row in df_workload_config.iterrows():
     argument_properties[cs.ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VAR] = workload_file_path
     argument_properties[cs.ARGUMENTS_JMETER_WORKLOAD_CSV_NUM_ROWS_VAR] = workload_file_num_csv_rows
 
-    with open('resources/' + cs.LOAD_TEST_CONFIG_FILE, 'w+') as fp:
+    with open(cs.LOAD_TEST_CONFIG_FILE, 'w+') as fp:
       jprops.store_properties(fp, config_properties)
 
-    with open('resources/' + cs.LOAD_TEST_ARGUMENTS_FILE, 'w+') as fp:
+    with open(cs.LOAD_TEST_ARGUMENTS_FILE, 'w+') as fp:
       jprops.store_properties(fp, argument_properties)
 
     config_properties_file_path = os.getcwd() + "/resources/" + cs.LOAD_TEST_CONFIG_FILE

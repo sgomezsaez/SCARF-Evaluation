@@ -128,14 +128,14 @@ WIKISTATS_COL_DELAY = 'col_delay'
 # Load Test Properties
 
 JAR_LOAD_TEST_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_loader/DynamicExecuter-1.0-SNAPSHOT.jar"
-
-LOAD_TEST_ARGUMENTS_FILE = 'arguments.properties'
-LOAD_TEST_CONFIG_FILE = 'config.properties'
+LOAD_TEST_CONFIG_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/"
+LOAD_TEST_ARGUMENTS_FILE = LOAD_TEST_CONFIG_PATH + 'arguments.properties'
+LOAD_TEST_CONFIG_FILE = LOAD_TEST_CONFIG_PATH + 'config.properties'
 
 CONFIG_TEST_PLAN_PATH_VAR = 'test_plan_path'
 CONFIG_JMETER_PATH_VAR = 'jmeter_home_path'
-CONFIG_TEST_PLAN_PATH_VALUE = ''
-CONFIG_JMETER_PATH_VALUE = ''
+CONFIG_TEST_PLAN_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/MediaWiki_Load_Profile.jmx'
+CONFIG_JMETER_PATH_VALUE = '/Users/gomezsso/Applications/apache-jmeter-2.9'
 
 ARGUMENTS_JMETER_SCENARIO_ID_VAR = 'experiment_scenario_id'
 ARGUMENTS_JMETER_ROUND_ID_VAR = 'experiment_round'
@@ -147,7 +147,9 @@ ARGUMENTS_JMETER_LOOP_PER_THREAD_VAR = 'loop_per_thread_count'
 ARGUMENTS_JMETER_THREAD_RAMPUP_VAR = 'thread_ramp_up_period'
 ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VAR = 'workload_csv_file_path'
 ARGUMENTS_JMETER_WORKLOAD_CSV_NUM_ROWS_VAR = 'workload_number_of_csv_rows'
+ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VAR = 'workload_csv_column_names'
 ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VAR = 'delay_between_requests'
+ARGUMENTS_JMETER_RESULTS_PATH_VAR = 'results_path'
 
 ARGUMENTS_JMETER_SCENARIO_ID_VALUE = '1.1.1'
 ARGUMENTS_JMETER_ROUND_ID_VALUE = 'R1'
@@ -158,4 +160,6 @@ ARGUMENTS_JMETER_LOOP_PER_THREAD_VALUE = '1'
 ARGUMENTS_JMETER_THREAD_RAMPUP_VALUE = '0'
 ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VALUE = DATA_LOCAL_PATH
 ARGUMENTS_JMETER_WORKLOAD_CSV_NUM_ROWS_VALUE = ''
+ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE = 'col_delay,col_page,col_project,col_requests,col_size'
 ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE = ''
+ARGUMENTS_JMETER_RESULTS_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/experiments_results'
