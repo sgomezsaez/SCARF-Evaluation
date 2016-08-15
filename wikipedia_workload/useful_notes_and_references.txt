@@ -1,0 +1,9 @@
+1) Wikimedia Downloads: Analytics Datasets: https://dumps.wikimedia.org/other/analytics/
+
+2) Access unique devices: https://dumps.wikimedia.org/other/unique_devices/2016/2016-01/
+
+3) Wikipedia EN Summary Stats: https://stats.wikimedia.org/EN/TablesWikipediaEN.htm
+
+4) Wikipedia EN Tables Page Views Monthly: https://stats.wikimedia.org/EN/TablesPageViewsMonthlyCombined.htm
+
+5) Wikipedia Database Dumps: https://dumps.wikimedia.org
