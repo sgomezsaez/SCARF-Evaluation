@@ -15,67 +15,67 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="experiment_scenario_id" elementType="Argument">
             <stringProp name="Argument.name">experiment_scenario_id</stringProp>
-            <stringProp name="Argument.value">1.1.1_20160101-000000</stringProp>
+            <stringProp name="Argument.value">${__P(experiment_scenario_id)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="experiment_round" elementType="Argument">
             <stringProp name="Argument.name">experiment_round</stringProp>
-            <stringProp name="Argument.value">R1_test</stringProp>
+            <stringProp name="Argument.value">${__P(experiment_round)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="workload_csv_file_path" elementType="Argument">
             <stringProp name="Argument.name">workload_csv_file_path</stringProp>
-            <stringProp name="Argument.value">/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/workload_generated-pagecounts-20160101-000000_scaled_factor100Scaling.csv</stringProp>
+            <stringProp name="Argument.value">${__P(workload_csv_file_path)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="workload_csv_column_delimiter" elementType="Argument">
             <stringProp name="Argument.name">workload_csv_column_delimiter</stringProp>
-            <stringProp name="Argument.value">,</stringProp>
+            <stringProp name="Argument.value">${__P(workload_csv_column_delimiter)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="workload_csv_column_names" elementType="Argument">
             <stringProp name="Argument.name">workload_csv_column_names</stringProp>
-            <stringProp name="Argument.value">col_delay,col_page,col_project,col_requests,col_size</stringProp>
+            <stringProp name="Argument.value">${__P(workload_csv_column_names)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="workload_number_of_csv_rows" elementType="Argument">
             <stringProp name="Argument.name">workload_number_of_csv_rows</stringProp>
-            <stringProp name="Argument.value">7704</stringProp>
+            <stringProp name="Argument.value">${__P(workload_number_of_csv_rows)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="http_host" elementType="Argument">
             <stringProp name="Argument.name">http_host</stringProp>
-            <stringProp name="Argument.value">localhost</stringProp>
+            <stringProp name="Argument.value">${__P(http_host)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="http_port" elementType="Argument">
             <stringProp name="Argument.name">http_port</stringProp>
-            <stringProp name="Argument.value">80</stringProp>
+            <stringProp name="Argument.value">${__P(http_port)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="http_path" elementType="Argument">
             <stringProp name="Argument.name">http_path</stringProp>
-            <stringProp name="Argument.value">/w</stringProp>
+            <stringProp name="Argument.value">${__P(http_path)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="number_of_threads" elementType="Argument">
             <stringProp name="Argument.name">number_of_threads</stringProp>
-            <stringProp name="Argument.value">691</stringProp>
+            <stringProp name="Argument.value">${__P(number_of_threads)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="thread_ramp_up_period" elementType="Argument">
             <stringProp name="Argument.name">thread_ramp_up_period</stringProp>
-            <stringProp name="Argument.value">5</stringProp>
+            <stringProp name="Argument.value">${__P(thread_ramp_up_period)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="loop_per_thread_count" elementType="Argument">
             <stringProp name="Argument.name">loop_per_thread_count</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.value">${__P(loop_per_thread_count)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="results_path" elementType="Argument">
             <stringProp name="Argument.name">results_path</stringProp>
-            <stringProp name="Argument.value">/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/experiments_results/</stringProp>
+            <stringProp name="Argument.value">${__P(results_path)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -137,7 +137,7 @@
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
         <hashTree/>
-        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="false">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -170,7 +170,7 @@
         </ResultCollector>
         <hashTree/>
       </hashTree>
-      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="false">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
           <name>saveConfig</name>

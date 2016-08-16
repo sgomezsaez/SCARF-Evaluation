@@ -38,6 +38,8 @@ for index,row in df_workload_config.iterrows():
                         pageCountFileList[count_workload_file_list].split('-')[1] + '-' + \
                         pageCountFileList[count_workload_file_list].split('-')[2]
 
+
+    ##### Approach using the Dynamic Load Tester - Sherif
     argument_properties = {cs.ARGUMENTS_JMETER_SCENARIO_ID_VAR: scenario_id_value,
                            cs.ARGUMENTS_JMETER_ROUND_ID_VAR: cs.ARGUMENTS_JMETER_ROUND_ID_VALUE,
                            cs.ARGUMENTS_JMETER_HTTP_HOST_VAR: cs.ARGUMENTS_JMETER_HTTP_HOST_VALUE,
@@ -74,7 +76,40 @@ for index,row in df_workload_config.iterrows():
     config_properties_file_path = cs.LOAD_TEST_CONFIG_FILE
     arguments_properties_file_path = cs.LOAD_TEST_ARGUMENTS_FILE
 
-    subprocess.call(['java', '-jar', cs.JAR_LOAD_TEST_PATH, config_properties_file_path, arguments_properties_file_path])
+    #subprocess.call(['java', '-jar', cs.JAR_LOAD_TEST_PATH, config_properties_file_path, arguments_properties_file_path])
+
+    ##### Alternative Approach using directly the JMeter JAR
+
+
+    jmeter_test_plan = cs.CONFIG_TEST_PLAN_PATH_VALUE
+    jmeter_results_file_path = cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE + "/Results_Scenario_" + \
+                               scenario_id_value + "_" + cs.ARGUMENTS_JMETER_ROUND_ID_VALUE + ".jtl"
+
+    print scenario_id_value
+
+    config_variables = ['-J' + cs.ARGUMENTS_JMETER_HTTP_HOST_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_HOST_VALUE,
+                        '-J' + cs.ARGUMENTS_JMETER_HTTP_PORT_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_PORT_VALUE,
+                        '-J' + cs.ARGUMENTS_JMETER_HTTP_PATH_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_PATH_VALUE,
+                        '-J' + cs.ARGUMENTS_JMETER_NUMBER_THREADS_VAR + '=' + concurrent_users,
+                        '-J' + cs.ARGUMENTS_JMETER_LOOP_PER_THREAD_VAR + '=' + thread_loop,
+                        '-J' + cs.ARGUMENTS_JMETER_THREAD_RAMPUP_VAR + '=' + thread_rampup,
+                        '-J' + cs.ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VAR + '=' + workload_file_path,
+                        '-J' + cs.ARGUMENTS_JMETER_WORKLOAD_CSV_NUM_ROWS_VAR + '=' + workload_file_num_csv_rows,
+                        '-J' + cs.ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VAR + '=' + cs.ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE,
+                        '-J' + cs.ARGUMENTS_JMETER_ROUND_ID_VAR + '=' + cs.ARGUMENTS_JMETER_ROUND_ID_VALUE,
+                        '-J' + cs.ARGUMENTS_JMETER_SCENARIO_ID_VAR + '=' + scenario_id_value,
+                        '-J' + cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VAR + "=" + cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE,
+                        '-J' + cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VAR + "=" + cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VALUE]
+
+
+    jmeter_jar_path = [cs.CONFIG_JMETER_PATH_VALUE + '/bin/ApacheJMeter.jar']
+    env = dict(os.environ)
+    env['JAVA_OPTS'] = '-Xmx2048m -Xms1024m'
+
+    print env
+    subprocess.call(['java', '-jar'] + jmeter_jar_path + ['-n'] + config_variables + ['-t', jmeter_test_plan, '-l', jmeter_results_file_path])
+
+
 
     count_workload_file_list += 1
     break
