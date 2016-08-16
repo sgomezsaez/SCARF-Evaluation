@@ -45,7 +45,8 @@ for index,row in df_workload_config.iterrows():
                            cs.ARGUMENTS_JMETER_HTTP_PATH_VAR: cs.ARGUMENTS_JMETER_HTTP_PATH_VALUE,
                            cs.ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VAR : cs.ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE,
                            cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VAR: cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE,
-                           cs.ARGUMENTS_JMETER_RESULTS_PATH_VAR: cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE
+                           cs.ARGUMENTS_JMETER_RESULTS_PATH_VAR: cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE,
+                           cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VAR: cs.ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VALUE
                            }
 
     print "Processing File: " + generatedWorkloadFileList[count_workload_file_list]
@@ -70,10 +71,10 @@ for index,row in df_workload_config.iterrows():
     with open(cs.LOAD_TEST_ARGUMENTS_FILE, 'w+') as fp:
       jprops.store_properties(fp, argument_properties)
 
-    config_properties_file_path = os.getcwd() + "/resources/" + cs.LOAD_TEST_CONFIG_FILE
-    arguments_properties_file_path = os.getcwd() + "/resources/" + cs.LOAD_TEST_ARGUMENTS_FILE
+    config_properties_file_path = cs.LOAD_TEST_CONFIG_FILE
+    arguments_properties_file_path = cs.LOAD_TEST_ARGUMENTS_FILE
 
-    #subprocess.call(['java', '-jar', cs.JAR_LOAD_TEST_PATH, config_properties_file_path, arguments_properties_file_path])
+    subprocess.call(['java', '-jar', cs.JAR_LOAD_TEST_PATH, config_properties_file_path, arguments_properties_file_path])
 
     count_workload_file_list += 1
     break

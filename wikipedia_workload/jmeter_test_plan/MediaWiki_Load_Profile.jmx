@@ -28,9 +28,9 @@
             <stringProp name="Argument.value">/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/workload_generated-pagecounts-20160101-000000_scaled_factor100Scaling.csv</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="workload_sample_file_delimiter" elementType="Argument">
-            <stringProp name="Argument.name">workload_sample_file_delimiter</stringProp>
-            <stringProp name="Argument.value"> </stringProp>
+          <elementProp name="workload_csv_column_delimiter" elementType="Argument">
+            <stringProp name="Argument.name">workload_csv_column_delimiter</stringProp>
+            <stringProp name="Argument.value">,</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="workload_csv_column_names" elementType="Argument">
@@ -45,7 +45,7 @@
           </elementProp>
           <elementProp name="http_host" elementType="Argument">
             <stringProp name="Argument.name">http_host</stringProp>
-            <stringProp name="Argument.value">test</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="http_port" elementType="Argument">
@@ -55,7 +55,7 @@
           </elementProp>
           <elementProp name="http_path" elementType="Argument">
             <stringProp name="Argument.name">http_path</stringProp>
-            <stringProp name="Argument.value">/w/</stringProp>
+            <stringProp name="Argument.value">/w</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="number_of_threads" elementType="Argument">
@@ -82,12 +82,12 @@
       </Arguments>
       <hashTree/>
       <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config" enabled="true">
-        <stringProp name="delimiter">${workload_sample_file_delimiter}</stringProp>
+        <stringProp name="delimiter">${workload_csv_column_delimiter}</stringProp>
         <stringProp name="fileEncoding"></stringProp>
         <stringProp name="filename">${workload_csv_file_path}</stringProp>
         <boolProp name="quotedData">false</boolProp>
         <boolProp name="recycle">true</boolProp>
-        <stringProp name="shareMode">shareMode.all</stringProp>
+        <stringProp name="shareMode">All threads</stringProp>
         <boolProp name="stopThread">false</boolProp>
         <stringProp name="variableNames">${workload_csv_column_names}</stringProp>
       </CSVDataSet>
@@ -96,7 +96,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">${__javaScript(${workload_number_of_csv_rows}/${number_of_threads})}</stringProp>
+          <stringProp name="LoopController.loops">${__javaScript(Math.round(${workload_number_of_csv_rows}/${number_of_threads}))}</stringProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${number_of_threads}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">${thread_ramp_up_period}</stringProp>
@@ -121,7 +121,7 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.domain">${http_host}</stringProp>
           <stringProp name="HTTPSampler.port">${http_port}</stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
