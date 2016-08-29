@@ -18,4 +18,4 @@
 	
 	* Import Dump
 
-		`set -e && java -jar mwdumper-1.25.jar --format=sql:1.5 --filter=latest <path_to_dump_file>.xml.bz2 | mysql -f -u<user> -p<password> -h <host> --default-character-set=utf8 <wiki_db_name>`
+		`./load_dump.sh <dump_file_location> <db_user> <db_pssw> <db_host> <db_name> >> output.log 2>&1 &`
