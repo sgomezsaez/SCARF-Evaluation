@@ -1,0 +1,9 @@
+scenario_id=TestScenario
+scenario_round=TestScenarioRound
+host_cell=localhost
+number_of_threads=100
+number_of_csv_rows=64
+loop_count=5
+ramp_up_period=10
+results_file_name=TestScenarioResults
+workload_sample_file_name=Load1.csv

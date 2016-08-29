@@ -27,6 +27,8 @@ def get_timestamp_from_file_name(fileName):
     d = datetime.datetime.combine(d, t)
     return d
 
+
+
 def get_time_from_file_name(fileName):
     splitted = fileName.split('-')
     dateStr = splitted[1]
@@ -38,7 +40,7 @@ def get_time_from_file_name(fileName):
     return [year, month, day, hour]
 
 
-def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMonth, endday, hours, count):
+def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMonth, endday, hours, count, suffix=''):
     a = date(beginYear, beginMonth, beginday)
     b = date(endYear, endMonth, endday)
 
@@ -47,11 +49,15 @@ def retrieve_files_time_interval(beginYear, beginMonth, beginday, endYear, endMo
     if dd.__len__() == 0:
         for h in hours:
             fileName = build_file_name(str(beginYear).zfill(2), str(beginMonth).zfill(2), str(beginday).zfill(2), h, count)
+            if suffix != '':
+                fileName = fileName + suffix
             fileList.append(fileName)
     else:
         for d in dd:
             for h in hours:
                 fileName = build_file_name(d.isoformat().split('-')[0], d.isoformat().split('-')[1], d.isoformat().split('-')[2], h, count)
+                if suffix != '':
+                    fileName = fileName + suffix
                 fileList.append(fileName)
 
     return fileList
@@ -234,5 +240,14 @@ def filter_csv_file_rows(inFilePath, outFilePath, delimiter, filter_values):
                 outWriter.writerow(row)
     inFile.close()
     os.remove(inFilePath)
+
+def filter_csv_file_rows(csvReader, filter_values):
+    out = []
+    for row in csvReader:
+        for filter_value in filter_values:
+            if row[0] == filter_value:
+                out.append([filter_value, row[1]])
+    return out
+
 
 
