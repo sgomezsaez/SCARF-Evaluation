@@ -110,8 +110,6 @@ WORKLOAD_SUMMARY_COL = [WORKLOAD_SUMMARY_COL_PROJECT, WORKLOAD_SUMMARY_COL_PAGE,
 font = {
 
         'size'   : 8}
-<<<<<<< HEAD
-=======
 
 # Generated Workload Config
 GENERATED_WORKLOAD_COL_TIMESTAMP = 'timestamp'
@@ -167,4 +165,4 @@ ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE = 'col_delay,col_page,col_project,
 ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VALUE = ','
 ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE = '1'
 ARGUMENTS_JMETER_RESULTS_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/experiments_results'
->>>>>>> 4ec2dc5d800537bf0d7dff8cc0611523e1a87df3
+
