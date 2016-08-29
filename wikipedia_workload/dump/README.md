@@ -13,9 +13,9 @@
 5. Import Dump (based on https://www.mediawiki.org/wiki/Manual:MWDumper. See https://www.mediawiki.org/wiki/Manual_talk:MWDumper#MWDumper_error for typical errors)
 
 	* Prerequisite
-	- MYSQL: DELETE FROM page; DELETE FROM text; DELETE FROM revision;
-	- Execute PHP Script in the MediaWiki Maintenance Directory: php rebuildall.php
+		- MYSQL: DELETE FROM page; DELETE FROM text; DELETE FROM revision;
+		- Execute PHP Script in the MediaWiki Maintenance Directory: php rebuildall.php
 	
 	* Import Dump
 
-	set -e && java -jar mwdumper-1.25.jar --format=sql:1.5 --filter=latest <path_to_dump_file>.xml.bz2 | mysql -f -u<user> -p<password> -h <host> --default-character-set=utf8 <wiki_db_name>
+		set -e && java -jar mwdumper-1.25.jar --format=sql:1.5 --filter=latest <path_to_dump_file>.xml.bz2 | mysql -f -u<user> -p<password> -h <host> --default-character-set=utf8 <wiki_db_name>
