@@ -90,8 +90,7 @@ for index,row in df_workload_config.iterrows():
     jmeter_results_file_path = cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE + '/' + cs.ARGUMENTS_JMETER_SCENARIO_ID_VALUE + \
                                '/' + scenario_id_value + "_" + cs.ARGUMENTS_JMETER_ROUND_ID_VALUE + ".jtl"
 
-    print scenario_id_value
-    print jmeter_results_file_path
+
     config_variables = ['-J' + cs.ARGUMENTS_JMETER_HTTP_HOST_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_HOST_VALUE,
                         '-J' + cs.ARGUMENTS_JMETER_HTTP_PORT_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_PORT_VALUE,
                         '-J' + cs.ARGUMENTS_JMETER_HTTP_PATH_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_PATH_VALUE,
@@ -111,9 +110,9 @@ for index,row in df_workload_config.iterrows():
     env = dict(os.environ)
     env['JAVA_OPTS'] = '-Xmx8192m -Xms1024m'
 
-    print env
-    #subprocess.call(['java', '-jar'] + jmeter_jar_path + ['-n'] + config_variables + ['-t', jmeter_test_plan, '-l', jmeter_results_file_path])
-
+    print "Starting Experiment with load " + scenario_id_value
+    subprocess.call(['java', '-jar'] + jmeter_jar_path + ['-n'] + config_variables + ['-t', jmeter_test_plan, '-l', jmeter_results_file_path])
+    print "Experiment Finished. Results in " + jmeter_results_file_path
 
 
     count_workload_file_list += 1
