@@ -1,3 +1,4 @@
 mediawiki_2016_evaluation.pem
 *.pyc
 .DS_Store
+constants.py
