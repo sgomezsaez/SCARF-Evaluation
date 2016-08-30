@@ -34,8 +34,7 @@ for index,row in df_workload_config.iterrows():
     config_properties = {cs.CONFIG_TEST_PLAN_PATH_VAR: cs.CONFIG_TEST_PLAN_PATH_VALUE,
                          cs.CONFIG_JMETER_PATH_VAR: cs.CONFIG_JMETER_PATH_VALUE}
 
-    scenario_id_value = cs.ARGUMENTS_JMETER_SCENARIO_ID_VALUE + '_' + \
-                        pageCountFileList[count_workload_file_list].split('-')[1] + '-' + \
+    scenario_id_value = pageCountFileList[count_workload_file_list].split('-')[1] + '-' + \
                         pageCountFileList[count_workload_file_list].split('-')[2]
 
 
@@ -82,11 +81,17 @@ for index,row in df_workload_config.iterrows():
 
 
     jmeter_test_plan = cs.CONFIG_TEST_PLAN_PATH_VALUE
-    jmeter_results_file_path = cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE + "/Results_Scenario_" + \
-                               scenario_id_value + "_" + cs.ARGUMENTS_JMETER_ROUND_ID_VALUE + ".jtl"
+
+    # Creating directory for the scenario results
+
+    if not os.path.exists(cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE + '/' + cs.ARGUMENTS_JMETER_SCENARIO_ID_VALUE):
+        os.makedirs(cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE + '/' + cs.ARGUMENTS_JMETER_SCENARIO_ID_VALUE)
+
+    jmeter_results_file_path = cs.ARGUMENTS_JMETER_RESULTS_PATH_VALUE + '/' + cs.ARGUMENTS_JMETER_SCENARIO_ID_VALUE + \
+                               '/' + scenario_id_value + "_" + cs.ARGUMENTS_JMETER_ROUND_ID_VALUE + ".jtl"
 
     print scenario_id_value
-
+    print jmeter_results_file_path
     config_variables = ['-J' + cs.ARGUMENTS_JMETER_HTTP_HOST_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_HOST_VALUE,
                         '-J' + cs.ARGUMENTS_JMETER_HTTP_PORT_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_PORT_VALUE,
                         '-J' + cs.ARGUMENTS_JMETER_HTTP_PATH_VAR + '=' + cs.ARGUMENTS_JMETER_HTTP_PATH_VALUE,
@@ -107,7 +112,7 @@ for index,row in df_workload_config.iterrows():
     env['JAVA_OPTS'] = '-Xmx8192m -Xms1024m'
 
     print env
-    subprocess.call(['java', '-jar'] + jmeter_jar_path + ['-n'] + config_variables + ['-t', jmeter_test_plan, '-l', jmeter_results_file_path])
+    #subprocess.call(['java', '-jar'] + jmeter_jar_path + ['-n'] + config_variables + ['-t', jmeter_test_plan, '-l', jmeter_results_file_path])
 
 
 
