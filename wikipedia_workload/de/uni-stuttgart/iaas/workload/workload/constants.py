@@ -66,7 +66,7 @@ wikiversity_del = ".v"
 mediawiki_del = ".w"
 
 # Data local path
-DATA_LOCAL_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/data/"
+DATA_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/"
 DATA_LOCAL_FILE_FILTERED = "_filtered"
 DATA_LOCAL_FILE_MONTHLY = "_monthly"
 DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
