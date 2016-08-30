@@ -24,7 +24,7 @@ WIKISTATS_UNIQUE_DEVICES_COL_LIST = [WIKISTATS_UNIQUE_DEVICES_TIMESTAMP, WIKISTA
 
 
 
-WIKISTATS_UNIQUE_DEVICES_FILE_PATH = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/unique_users_monthly.csv'
+WIKISTATS_UNIQUE_DEVICES_FILE_PATH = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/data/unique_users_monthly.csv'
 
 # Wikistats HTTP Retrieval properties
 
@@ -127,14 +127,14 @@ WIKISTATS_COL_DELAY = 'col_delay'
 
 # Load Test Properties
 
-JAR_LOAD_TEST_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_loader/DynamicExecuter-1.0-SNAPSHOT.jar"
-LOAD_TEST_CONFIG_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/"
+JAR_LOAD_TEST_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_loader/DynamicExecuter-1.0-SNAPSHOT.jar"
+LOAD_TEST_CONFIG_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/"
 LOAD_TEST_ARGUMENTS_FILE = LOAD_TEST_CONFIG_PATH + 'arguments.properties'
 LOAD_TEST_CONFIG_FILE = LOAD_TEST_CONFIG_PATH + 'config.properties'
 
 CONFIG_TEST_PLAN_PATH_VAR = 'test_plan_path'
 CONFIG_JMETER_PATH_VAR = 'jmeter_home_path'
-CONFIG_TEST_PLAN_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/MediaWiki_Load_Profile.jmx'
+CONFIG_TEST_PLAN_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/MediaWiki_Load_Profile.jmx'
 CONFIG_JMETER_PATH_VALUE = '/Users/gomezsso/Applications/apache-jmeter-2.9'
 
 ARGUMENTS_JMETER_SCENARIO_ID_VAR = 'experiment_scenario_id'
