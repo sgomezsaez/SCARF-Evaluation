@@ -66,7 +66,7 @@ wikiversity_del = ".v"
 mediawiki_del = ".w"
 
 # Data local path
-DATA_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/"
+DATA_LOCAL_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/data/"
 DATA_LOCAL_FILE_FILTERED = "_filtered"
 DATA_LOCAL_FILE_MONTHLY = "_monthly"
 DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
@@ -135,7 +135,7 @@ LOAD_TEST_CONFIG_FILE = LOAD_TEST_CONFIG_PATH + 'config.properties'
 CONFIG_TEST_PLAN_PATH_VAR = 'test_plan_path'
 CONFIG_JMETER_PATH_VAR = 'jmeter_home_path'
 CONFIG_TEST_PLAN_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/MediaWiki_Load_Profile.jmx'
-CONFIG_JMETER_PATH_VALUE = '/Users/gomezsso/Applications/apache-jmeter-2.9'
+CONFIG_JMETER_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_loader/jmeter'
 
 ARGUMENTS_JMETER_SCENARIO_ID_VAR = 'experiment_scenario_id'
 ARGUMENTS_JMETER_ROUND_ID_VAR = 'experiment_round'
@@ -164,5 +164,5 @@ ARGUMENTS_JMETER_WORKLOAD_CSV_NUM_ROWS_VALUE = '7704'
 ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE = 'col_delay,col_page,col_project,col_requests,col_size'
 ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VALUE = ','
 ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE = '1'
-ARGUMENTS_JMETER_RESULTS_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/experiments_results'
+ARGUMENTS_JMETER_RESULTS_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/experiments_results'
 
