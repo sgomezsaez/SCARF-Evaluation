@@ -104,7 +104,7 @@ for index,row in df_workload_config.iterrows():
 
     jmeter_jar_path = [cs.CONFIG_JMETER_PATH_VALUE + '/bin/ApacheJMeter.jar']
     env = dict(os.environ)
-    env['JAVA_OPTS'] = '-Xmx2048m -Xms1024m'
+    env['JAVA_OPTS'] = '-Xmx8192m -Xms1024m'
 
     print env
     subprocess.call(['java', '-jar'] + jmeter_jar_path + ['-n'] + config_variables + ['-t', jmeter_test_plan, '-l', jmeter_results_file_path])
