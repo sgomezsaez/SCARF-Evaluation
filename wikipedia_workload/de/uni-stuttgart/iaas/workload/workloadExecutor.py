@@ -16,7 +16,7 @@ pageCountFileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YE
                                                 cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
                                                    cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
 
-generatedWorkloadFileList = [(cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + i + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + '.csv')
+generatedWorkloadFileList = [(cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + i + cs.WIKISTATS_FILE_SCALED_SUFFIX + '.csv')
                              for i in pageCountFileList]
 
 
