@@ -85,10 +85,10 @@
         <stringProp name="delimiter">${workload_csv_column_delimiter}</stringProp>
         <stringProp name="fileEncoding"></stringProp>
         <stringProp name="filename">${workload_csv_file_path}</stringProp>
-        <boolProp name="quotedData">false</boolProp>
-        <boolProp name="recycle">true</boolProp>
+        <boolProp name="quotedData">true</boolProp>
+        <boolProp name="recycle">false</boolProp>
         <stringProp name="shareMode">All threads</stringProp>
-        <boolProp name="stopThread">false</boolProp>
+        <boolProp name="stopThread">true</boolProp>
         <stringProp name="variableNames">${workload_csv_column_names}</stringProp>
       </CSVDataSet>
       <hashTree/>
@@ -123,14 +123,14 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">${http_host}</stringProp>
           <stringProp name="HTTPSampler.port">${http_port}</stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout">60000</stringProp>
+          <stringProp name="HTTPSampler.response_timeout">60000</stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path">${http_path}/${col_page}</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">true</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
           <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
           <boolProp name="HTTPSampler.monitor">false</boolProp>
@@ -164,6 +164,8 @@
               <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
               <assertionsResultsToSave>0</assertionsResultsToSave>
               <bytes>true</bytes>
+              <url>true</url>
+              <hostname>true</hostname>
             </value>
           </objProp>
           <stringProp name="filename">${results_path}/${experiment_scenario_id}_${experiment_round}_table.csv</stringProp>
@@ -197,6 +199,8 @@
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
             <bytes>true</bytes>
+            <url>true</url>
+            <hostname>true</hostname>
           </value>
         </objProp>
         <stringProp name="filename">${results_path}/${experiment_scenario_id}_${experiment_round}_summary.csv</stringProp>
