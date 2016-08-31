@@ -5,6 +5,7 @@ from csvHelper import csvHelper as csvHelper
 import pandas as pd
 import subprocess
 
+# Run Workload Executor in background: python workloadExecutor.py >> /home/ubuntu/SCARF-Evaluation/wikipedia_workload/result_experiments_summary/T5_r1.log 2>&1 &
 
 def getDateFromFileName(fileName):
     split1 = fileName.split('-')
