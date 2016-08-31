@@ -116,7 +116,6 @@ for index,row in df_workload_config.iterrows():
 
 
     count_workload_file_list += 1
-    break
 
 
 
