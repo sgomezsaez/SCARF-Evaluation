@@ -53,7 +53,7 @@ for index,row in df_workload_config.iterrows():
     print "Processing File: " + generatedWorkloadFileList[count_workload_file_list]
 
 
-    concurrent_users = str(int(row[cs.GENERATED_WORKLOAD_COL_HOURLY_CONCURRENT_USERS]))
+    concurrent_users = str(int(row[cs.GENERATED_WORKLOAD_COL_HOURLY_CONCURRENT_USERS]) / 10)
     thread_loop = cs.ARGUMENTS_JMETER_LOOP_PER_THREAD_VALUE
     thread_rampup = cs.ARGUMENTS_JMETER_THREAD_RAMPUP_VALUE
     workload_file_path = cs.ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VALUE + generatedWorkloadFileList[count_workload_file_list]
