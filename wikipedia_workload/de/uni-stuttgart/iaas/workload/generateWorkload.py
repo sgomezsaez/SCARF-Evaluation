@@ -26,9 +26,9 @@ def shuffle_data_frame(df):
     df.reset_index()
     return df
 
-hourly_access_requests_file = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor100Scaling.csv"
-users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor100.csv'
-output_workload_file = cs.DATA_LOCAL_PATH + 'workload_hourly_distribution_scaled_factor100.csv'
+hourly_access_requests_file = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
+users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
+output_workload_file = cs.DATA_LOCAL_PATH + 'workload_hourly_distribution_scaled_factor1000.csv'
 
 
 month_total_number_requests = hourly_analysis.calculate_total_number_requests(hourly_access_requests_file)
@@ -81,7 +81,7 @@ pageCountFileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YE
                                                    cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
 
 # Adapting file list name with scaled suffix
-pageCountFileListSuffix = [(i + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + '.csv') for i in pageCountFileList]
+pageCountFileListSuffix = [(i + cs.WIKISTATS_FILE_SCALED_SUFFIX + '.csv') for i in pageCountFileList]
 
 
 # Distributing the requests
@@ -117,8 +117,10 @@ for pageCountFile in pageCountFileListSuffix:
     outDataFrame = shuffle_data_frame(outDataFrame)
 
     # Saving to File
-    print "Saving: " + cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + ".csv"
-    outDataFrame.to_csv(cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + ".csv", sep=' ', index=False)
+    print "Saving: " + cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + \
+          pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_SUFFIX + ".csv"
+    outDataFrame.to_csv(cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX +
+                        pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_SUFFIX + ".csv", sep=' ', index=False)
     count += 1
 
 

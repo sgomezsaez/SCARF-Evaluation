@@ -91,5 +91,6 @@ def plot_workload_distribution_summary(fileSummaryPath=''):
 
     plt.show()
 
-fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_no_clean.csv"
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_no_clean.csv"
+fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
 plot_workload_distribution_summary(fileName)

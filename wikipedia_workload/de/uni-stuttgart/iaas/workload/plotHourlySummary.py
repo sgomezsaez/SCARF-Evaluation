@@ -104,22 +104,22 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
                                        cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES])
 
 
-    df_non_scaled = pd.read_csv('/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/1-2016_1-2016_hourly_summary_no_clean.csv', delimiter=' ')
-    df_non_scaled.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
-                   cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
-                   cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
-                   cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
-                   cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
-                   cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
-                   cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
-                   cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
-                   cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
-                    cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
-                    cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
+    #df_non_scaled = pd.read_csv('/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/1-2016_1-2016_hourly_summary_no_clean.csv', delimiter=' ')
+    #df_non_scaled.columns = [cs.WORKLOAD_SUMMARY_STAT_TIMESTAMP,
+    #               cs.WORKLOAD_SUMMARY_STAT_COUNT_REQ,
+    #               cs.WORKLOAD_SUMMARY_STAT_COUNT_BYTES,
+    #               cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ,
+    #               cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES,
+    #               cs.WORKLOAD_SUMMARY_STAT_STD_REQ,
+    #               cs.WORKLOAD_SUMMARY_STAT_STD_BYTES,
+    #               cs.WORKLOAD_SUMMARY_STAT_MAX_REQ,
+    #               cs.WORKLOAD_SUMMARY_STAT_MAX_BYTES,
+    #                cs.WORKLOAD_SUMMARY_STAT_SUM_REQ,
+    #                cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES]
 
-    print df_non_scaled[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
-    print df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
-    print df_non_scaled[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum() - df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
+    #print df_non_scaled[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
+    #print df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
+    #print df_non_scaled[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum() - df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].sum()
     #print df.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ])
 
     years = YearLocator()   # every year
@@ -146,16 +146,18 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     print countRequests
     l1 = ax1.plot(date_list, countRequests, color='b')
     ax1.xaxis.set_visible(False)
-    ax1.set_title("Sum")
+    ax1.set_ylabel('Total', fontsize=13)
+    #ax1.set_title("Sum")
     ax1.grid(True)
 
 
     # Plotting Request Mean
-    ax1 = plt.subplot(212)
+    ax3 = plt.subplot(212)
     countMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_REQ].tolist()
-    l2 = ax1.plot(date_list, countMean, color='r')
+    l2 = ax3.plot(date_list, countMean, color='r')
     #ax1.xaxis.set_visible(False)
-    ax1.grid(True)
+    ax3.grid(True)
+    ax3.set_ylabel('Mean', fontsize=13)
 
     # Plotting Request Standard Deviation
 
@@ -165,8 +167,8 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     #ax1.set_title("Standard Deviation")
 
     # Axis
-    ax1.xaxis.set_major_locator(DayLocator())
-    ax1.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
+    ax3.xaxis.set_major_locator(DayLocator())
+    ax3.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
     plt.xticks(rotation=80)
     #ax1.grid(True)
 
@@ -187,17 +189,17 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     print countBytes
     ax2.plot(date_list, countBytes, color='b')
     ax2.xaxis.set_visible(False)
-    ax2.set_title("Sum")
     ax2.grid(True)
+    ax2.set_ylabel('Total', fontsize=13)
 
     # Plotting Bytes Mean
 
-    ax2 = plt.subplot(212)
+    ax4 = plt.subplot(212)
     bytesMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES].tolist()
-    ax2.plot(date_list, bytesMean, color='r')
+    ax4.plot(date_list, bytesMean, color='r')
     #ax2.xaxis.set_visible(False)
-    ax2.grid(True)
-    ax2.set_title("Mean")
+    ax4.set_ylabel('Mean', fontsize=13)
+    ax4.grid(True)
 
     # Plotting Bytes Standard Deviation
 
@@ -208,10 +210,10 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
 
     # Axis
     #ax2.xaxis.set_major_locator(HourLocator(interval=25))
-    ax2.xaxis.set_major_locator(DayLocator())
-    ax2.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
+    ax4.xaxis.set_major_locator(DayLocator())
+    ax4.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
     plt.xticks(rotation=80)
-    ax2.grid(True)
+    ax4.grid(True)
 
 
     plt.gcf().subplots_adjust(bottom=0.26)
@@ -225,20 +227,24 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     #plt.show()
 
 
-#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary.csv"
+fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_no_clean.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_RobustScaler.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-1000.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-10000.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor100Scaling.csv"
-fileNameWorkload = cs.DATA_LOCAL_PATH + "workload_hourly_distribution_scaled_factor100.csv"
-outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/'
-#outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scaleRobustScaler.pdf"
-#outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scaleRobustScaler.pdf"
-#outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scale0-1000.pdf"
-#outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scale0-1000.pdf"
-#outputFigureSummaryRequests = outputFiguresPath + "hourlySummaryRequests_scalefactor100.pdf"
-#outputFigureSummaryBytes = outputFiguresPath + "hourlySummaryBytes_scaled_scalefactor100.pdf"
-#plot_hourly_summary(fileName, outputFigureSummaryRequests, outputFigureSummaryBytes)
-plot_hourly_summary_workload(filePath=fileNameWorkload, outputFigureSummaryRequests=outputFiguresPath + 'workload_hourly_distribution_scaled_factor100.pdf')
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
+#fileNameWorkload = cs.DATA_LOCAL_PATH + "workload_hourly_distribution_scaled_factor1000.csv"
+outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_no-scale.pdf"
+outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_no-scale.pdf"
+#outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scaleRobustScaler.pdf"
+#outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scaleRobustScaler.pdf"
+#outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scale0-1000.pdf"
+#outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scale0-1000.pdf"
+#outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scalefactor100.pdf"
+#outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scalefactor100.pdf"
+#outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scalefactor1000.pdf"
+#outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scalefactor1000.pdf"
+plot_hourly_summary(fileName, outputFigureSummaryRequests, outputFigureSummaryBytes)
+#plot_hourly_summary_workload(filePath=fileNameWorkload, outputFigureSummaryRequests=outputFiguresPath)
 
 

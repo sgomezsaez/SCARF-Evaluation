@@ -147,7 +147,7 @@ non_scaled_file_list = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN
 scaled_file_list = []
 for i in non_scaled_file_list:
     #scaled_file_list.append(i + cs.DATA_LOCAL_FILE_SCALED + '_RobustScaler' + '.csv')
-    scaled_file_list.append(i + cs.DATA_LOCAL_FILE_SCALED + '_factor100Scaling' + '.csv')
+    scaled_file_list.append(i + cs.DATA_LOCAL_FILE_SCALED + '_factor1000Scaling' + '.csv')
 
 #scaled_file_summary_path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
 #               str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_HOURLY_SUMMARY + \
@@ -155,12 +155,12 @@ for i in non_scaled_file_list:
 
 scaled_file_summary_path = cs.DATA_LOCAL_PATH + str(cs.WIKISTATS_BEGIN_MONTH) + '-'+ str(cs.WIKISTATS_BEGIN_YEAR) + '_' + \
                str(cs.WIKISTATS_END_MONTH) + '-' + str(cs.WIKISTATS_END_YEAR) + cs.DATA_LOCAL_FILE_HOURLY_SUMMARY + \
-                           cs.DATA_LOCAL_FILE_SCALED + '_factor100Scaling' + '.csv'
+                           cs.DATA_LOCAL_FILE_SCALED + '_factor1000Scaling' + '.csv'
 
 
 #min_max_scale_workload_files_requests(non_scaled_file_list, scaled_file_list, 0, 10000)
 #robust_scale_workload_files_requests(non_scaled_file_list, scaled_file_list)
-factor_scale_workload_files_requests(non_scaled_file_list, scaled_file_list, 100)
+#factor_scale_workload_files_requests(non_scaled_file_list, scaled_file_list, 1000)
 
 hs.create_hourly_analysis(scaled_file_list, scaled_file_summary_path)
 

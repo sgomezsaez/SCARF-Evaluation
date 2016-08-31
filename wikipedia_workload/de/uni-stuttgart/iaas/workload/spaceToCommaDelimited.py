@@ -13,7 +13,7 @@ pageCountFileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YE
                                                    cs.WIKISTATS_END_DAY, cs.WIKISTATS_HOURS, cs.WIKISTATS_PAGECOUNTS)
 
 # Adapting file list name with scaled suffix
-pageCountFileListSuffix = [(cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + i + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + '.csv') for i in pageCountFileList]
+pageCountFileListSuffix = [(cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + i + cs.WIKISTATS_FILE_SCALED_SUFFIX + '.csv') for i in pageCountFileList]
 
 
 
@@ -23,6 +23,6 @@ for pageCountFile in pageCountFileListSuffix:
     print "Processing File: " + pageCountFile
     pageCountDF = pd.read_csv(cs.DATA_LOCAL_PATH + pageCountFile, delimiter=' ')
     # Saving to File
-    print "Saving: " + cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + ".csv"
-    pageCountDF.to_csv(cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_100_SUFFIX + ".csv", sep=',', index=False)
+    print "Saving: " + cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_SUFFIX + ".csv"
+    pageCountDF.to_csv(cs.DATA_LOCAL_PATH + cs.WIKISTATS_GENERATED_WORKLOAD_PREFIX + pageCountFileList[count] + cs.WIKISTATS_FILE_SCALED_SUFFIX + ".csv", sep=',', index=False)
     count += 1

@@ -155,8 +155,8 @@ def calculate_daily_probability(summary_file):
     daily_requests_sum.columns = [cs.WORKLOAD_SUMMARY_STAT_SUM_REQ]
 
     #print daily_requests_sum.to_frame()
-    prob_dist = wdf.best_fit_distribution(daily_requests_sum, bins=15)
-    #wdf.load_and_fit_data(df=daily_requests_sum.to_frame(), bins=15)
+    prob_dist = wdf.best_fit_distribution(daily_requests_sum, bins=25)
+    #wdf.load_and_fit_data(df=daily_requests_sum.to_frame(), bins=25)
 
     daily_probability = []
 
@@ -183,11 +183,11 @@ for i in fileList:
 
 #create_hourly_analysis(fileList=fileListFiltered, outPutFilePath=path)
 
-file_name = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor100Scaling.csv"
+file_name = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
 
 #print calculate_total_number_requests(file_name)
 #print calculate_average_number_requests(file_name)
 #print calculate_daily_total_number_requests(file_name)
 #print calculate_hourly_total_number_requests(file_name)
-#print calculate_daily_probability(file_name)
+print calculate_daily_probability(file_name)
 

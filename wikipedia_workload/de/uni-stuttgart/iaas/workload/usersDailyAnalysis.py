@@ -16,9 +16,9 @@ def plot_daily_access_summary(filePath='', outputFigureSummaryAccess='.'):
 
     df.columns = cs.WIKISTATS_UNIQUE_DEVICES_COL_LIST
 
-    array_mobile = df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE]) / 100
-    array_computer = df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI]) / 100
-    array_total = df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL]) / 100
+    array_mobile = df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_MOBILE])
+    array_computer = df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI])
+    array_total = df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL])
 
     years = YearLocator()   # every year
     months = MonthLocator()  # every month
@@ -87,10 +87,11 @@ def donations_per_day(filePath=''):
     return df[cs.WIKISTATS_DAILY_DONATIONS].tolist()
 
 
-fileName = cs.WIKISTATS_UNIQUE_DEVICES_FILE_PATH
-#outputFiguresPath = cs.FIGURES_LOCAL_PATH + '/' + "dailySummaryAccesses_scaled100.pdf"
-#outputFigureSummaryAccesses = outputFiguresPath
-#plot_daily_access_summary(fileName, outputFiguresPath)
+#fileName = cs.DATA_LOCAL_PATH + 'unique_users_monthly.csv'
+fileName = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
+#outputFiguresPath = cs.FIGURES_LOCAL_PATH + "dailySummaryAccesses_no-scale.pdf"
+outputFiguresPath = cs.FIGURES_LOCAL_PATH + "dailySummaryAccesses_scaled1000.pdf"
+plot_daily_access_summary(fileName, outputFiguresPath)
 
-#outputScaledFile = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor100.csv'
-#daily_access_summary_scale(fileName, outputScaledFile, scaleFactor=100)
+#outputScaledFile = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
+#daily_access_summary_scale(fileName, outputScaledFile, scaleFactor=1000)

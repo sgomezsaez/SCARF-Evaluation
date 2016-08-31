@@ -57,7 +57,7 @@ for index,row in df_workload_config.iterrows():
     thread_loop = cs.ARGUMENTS_JMETER_LOOP_PER_THREAD_VALUE
     thread_rampup = cs.ARGUMENTS_JMETER_THREAD_RAMPUP_VALUE
     workload_file_path = cs.ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VALUE + generatedWorkloadFileList[count_workload_file_list]
-    workload_file_num_csv_rows = str(len(pd.read_csv(cs.DATA_LOCAL_PATH + generatedWorkloadFileList[count_workload_file_list], delimiter=' '))/10)
+    workload_file_num_csv_rows = str(len(pd.read_csv(cs.DATA_LOCAL_PATH + generatedWorkloadFileList[count_workload_file_list], delimiter=' ')))
     hourly_sum_requests = str(int(row[cs.GENERATED_WORKLOAD_COL_SUM_REQS]))
 
     argument_properties[cs.ARGUMENTS_JMETER_NUMBER_THREADS_VAR] = concurrent_users
