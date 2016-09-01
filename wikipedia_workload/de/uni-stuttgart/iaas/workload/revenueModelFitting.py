@@ -61,6 +61,14 @@ def average_revenue_plot(unique_access_users_file='', scaleFactor=1000):
 
     average_revenue_user = average_revenue_per_user(array_user_access, array_donations)
 
+    #print average_revenue_user
+
+    #average_revenue_user = np.delete(average_revenue_user, 0, 0)
+
+    #print average_revenue_user
+
+    #array_dates.pop(0)
+
     years = YearLocator()   # every year
     months = MonthLocator()  # every month
     yearsFmt = DateFormatter('%Y')
@@ -109,7 +117,18 @@ def user_donation_analysis(scaled_users_daily_access_file='', scaleFactor=1000):
     print array_donations.sum()
 
 
-scaled_users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor100.csv'
+def total_average_revenue_per_user(unique_access_users_file='', scaleFactor=1000):
+    df_users_access = pd.read_csv(unique_access_users_file, delimiter=' ')
+
+    array_user_access = df_users_access.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL]).flatten()
+    array_donations = (df_users_access.as_matrix(columns=[cs.WIKISTATS_DAILY_DONATIONS]) / scaleFactor).flatten()
+
+    average_revenue_user = average_revenue_per_user(array_user_access, array_donations)
+
+    return np.sum(average_revenue_user) / average_revenue_user.size
+
+scaled_users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
 #correlate_users_donations(unique_access_users_file=scaled_users_daily_access_file,scaleFactor=1000)
 average_revenue_plot(unique_access_users_file=scaled_users_daily_access_file,scaleFactor=1000)
 user_donation_analysis(scaled_users_daily_access_file=scaled_users_daily_access_file, scaleFactor=1000)
+print total_average_revenue_per_user(unique_access_users_file=scaled_users_daily_access_file,scaleFactor=1000)

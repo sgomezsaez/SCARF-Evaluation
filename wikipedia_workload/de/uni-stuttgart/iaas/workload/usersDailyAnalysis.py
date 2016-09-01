@@ -86,12 +86,25 @@ def donations_per_day(filePath=''):
     df = pd.read_csv(filePath, delimiter=' ')
     return df[cs.WIKISTATS_DAILY_DONATIONS].tolist()
 
+def users_monthly(filePath=''):
+    df = pd.read_csv(fileName, delimiter=' ')
+    return df.as_matrix(columns=[cs.WIKISTATS_UNIQUE_DEVICES_EN_WIKI_TOTAL]).sum()
+
+def total_users_generated_workload(filePath=''):
+    df = pd.read_csv(filePath, delimiter=' ')
+    return df.as_matrix(columns=[cs.GENERATED_WORKLOAD_COL_HOURLY_CONCURRENT_USERS]).sum()
 
 #fileName = cs.DATA_LOCAL_PATH + 'unique_users_monthly.csv'
 fileName = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
 #outputFiguresPath = cs.FIGURES_LOCAL_PATH + "dailySummaryAccesses_no-scale.pdf"
 outputFiguresPath = cs.FIGURES_LOCAL_PATH + "dailySummaryAccesses_scaled1000.pdf"
-plot_daily_access_summary(fileName, outputFiguresPath)
+#plot_daily_access_summary(fileName, outputFiguresPath)
 
 #outputScaledFile = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
 #daily_access_summary_scale(fileName, outputScaledFile, scaleFactor=1000)
+
+#print users_monthly(fileName)
+#print users_per_day(fileName)
+
+fileGeneratedWorkload = cs.DATA_LOCAL_PATH + 'workload_hourly_distribution_scaled_factor1000.csv'
+print total_users_generated_workload(fileGeneratedWorkload)

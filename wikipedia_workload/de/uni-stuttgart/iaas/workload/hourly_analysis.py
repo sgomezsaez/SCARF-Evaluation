@@ -165,6 +165,10 @@ def calculate_daily_probability(summary_file):
 
     return daily_probability
 
+def total_requests_generated_workload(filePath=''):
+    df = pd.read_csv(filePath, delimiter=' ')
+    return df.as_matrix(columns=[cs.GENERATED_WORKLOAD_COL_SUM_REQS]).sum()
+
 
 fileList = csvHelper.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH,
                                                 cs.WIKISTATS_BEGIN_DAY, cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH,
@@ -189,5 +193,8 @@ file_name = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000
 #print calculate_average_number_requests(file_name)
 #print calculate_daily_total_number_requests(file_name)
 #print calculate_hourly_total_number_requests(file_name)
-print calculate_daily_probability(file_name)
+#print calculate_daily_probability(file_name)
+
+fileGeneratedWorkload = cs.DATA_LOCAL_PATH + 'workload_hourly_distribution_scaled_factor1000.csv'
+print total_requests_generated_workload(fileGeneratedWorkload)
 
