@@ -6,3 +6,4 @@ mediawiki_2016_evaluation.pem.txt
 pagecounts-201601*.csv
 constants.py
 wikipedia_workload/azure_props/
+wikipedia_workload/azure_config/
