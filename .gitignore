@@ -1,4 +1,6 @@
 .idea
+wikipedia_docker_2/
+wikipedia_workload/experiments_results/
 mediawiki_2016_evaluation.pem.txt
 .DS_Store
 pagecounts-201601*.csv
