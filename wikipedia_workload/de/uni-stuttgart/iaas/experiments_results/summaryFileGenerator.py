@@ -32,7 +32,7 @@ def create_df_summary_hour_from_file(file_path=''):
     mean_elapsed = description.iloc[1][cs.EXP_RESULTS_ELAPSED]
     total_reqs_resp_200 = len(df[df[cs.EXP_RESULTS_RESP_CODE] == '200'])
     total_reqs_resp_404 = len(df[df[cs.EXP_RESULTS_RESP_CODE] == '404'])
-    total_reqs_resp_500 = len(df[(df[cs.EXP_RESULTS_RESP_CODE] == '500') | (df[cs.EXP_RESULTS_RESP_CODE] == '502') | (df[cs.EXP_RESULTS_RESP_CODE] == '504')])
+    total_reqs_resp_500 = len(df[(df[cs.EXP_RESULTS_RESP_CODE] == '500') | (df[cs.EXP_RESULTS_RESP_CODE] == '502') | (df[cs.EXP_RESULTS_RESP_CODE] == '503') | (df[cs.EXP_RESULTS_RESP_CODE] == '504')])
     total_reqs_success = len(df[df[cs.EXP_RESULTS_SUCCESS] == True])
     total_reqs = len(df)
     mean_bytes = description.iloc[1][cs.EXP_RESULTS_BYTES]
@@ -86,5 +86,5 @@ file_list = ut.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTAT
 
 #print create_df_summary_hour_from_file(file_path=cs.EXP_RESULTS_DATA_PATH + 'T1/' + file_list[0])
 
-create_df_summary_experiment_scenario_round(cs.EXP_RESULTS_DATA_PATH, cs.EXP_RESULTS_DATA_SCENARIOS[0],
+create_df_summary_experiment_scenario_round(cs.EXP_RESULTS_DATA_PATH, cs.EXP_RESULTS_DATA_SCENARIOS[7],
                                             cs.EXP_RESULTS_DATA_ROUND, cs.SUMMARY_HOURLY_RESULTS_OUTPUT_FILE_NAME)

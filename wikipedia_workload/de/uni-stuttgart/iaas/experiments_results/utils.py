@@ -1,6 +1,7 @@
 from datetime import date, timedelta, time
 import datetime
 import calendar
+import colorsys
 
 timeStampToDateTime = lambda x: datetime.fromtimestamp(
             int(x)
@@ -55,3 +56,20 @@ def get_time_from_file_name(fileName):
     day = dateStr[6:8]
     hour = timeStr[0:2]
     return [year, month, day, hour]
+
+
+def get_spaced_colors(n):
+    max_value = 16581375 #255**3
+    interval = int(max_value / n)
+    colors = [hex(I)[2:].zfill(6) for I in range(0, max_value, interval)]
+
+    return [(int(i[:2], 16), int(i[2:4], 16), int(i[4:], 16)) for i in colors]
+
+def get_N_HexCol(N=5):
+
+    HSV_tuples = [(x*1.0/N, 0.5, 0.5) for x in xrange(N)]
+    hex_out = []
+    for rgb in HSV_tuples:
+        rgb = map(lambda x: int(x*255),colorsys.hsv_to_rgb(*rgb))
+        hex_out.append("".join(map(lambda x: chr(x).encode('hex'),rgb)))
+    return hex_out
