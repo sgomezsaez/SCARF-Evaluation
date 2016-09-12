@@ -54,37 +54,35 @@ def create_df_summary_hour_from_file(file_path=''):
     return pd.DataFrame(data, columns=cs.SUMMARY_HOURLY_RESULTS_INPUT_COLUMNS_LIST)
 
 
-def create_df_summary_experiment_scenario_round(dir_path, scenarioID, scenarioRound, outputFileName):
-    scenario_path = dir_path + scenarioID
-    file_list = ut.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH, cs.WIKISTATS_BEGIN_DAY,
-                                            cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH, cs.WIKISTATS_END_DAY,
-                                            cs.WIKISTATS_HOURS, '', suffix='_'+ scenarioRound + '.jtl')
-    df = None
+def create_df_summary_experiment_scenario_round(dir_path, scenarios, outputFileName):
 
-    for i in file_list:
-        print "### Processing File %s" % (scenario_path + '/' + i)
-        if file_list.index(i) > 0 :
-            df = df.append(create_df_summary_hour_from_file(file_path=scenario_path + '/' + i), ignore_index=True)
-        else:
-            df = create_df_summary_hour_from_file(file_path=scenario_path + '/' + i)
+    for scenario_desc in scenarios:
+        scenario_id = scenario_desc[0]
+        scenario_round = scenario_desc[1]
 
-    df.to_csv(path_or_buf=scenario_path + '/' + outputFileName + '.csv', sep=',', index=False, header=True)
+        scenario_path = dir_path + scenario_id
 
 
+        file_list = ut.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH, cs.WIKISTATS_BEGIN_DAY,
+                                                    cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH, cs.WIKISTATS_END_DAY,
+                                                    cs.WIKISTATS_HOURS, '', suffix='_'+ scenario_round + '.jtl')
+        df = None
+
+        for i in file_list:
+            print "### Processing File %s" % (scenario_path + '/' + i)
+            if file_list.index(i) > 0 :
+                df = df.append(create_df_summary_hour_from_file(file_path=scenario_path + '/' + i), ignore_index=True)
+            else:
+                df = create_df_summary_hour_from_file(file_path=scenario_path + '/' + i)
+
+        df.to_csv(path_or_buf=scenario_path + '/' + outputFileName + '.csv', sep=',', index=False, header=True)
 
 
-
-
-
-
-
-
-
-file_list = ut.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH, cs.WIKISTATS_BEGIN_DAY,
-                                            cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH, cs.WIKISTATS_END_DAY,
-                                            cs.WIKISTATS_HOURS, '', suffix='_'+ cs.EXP_RESULTS_DATA_ROUND + '.jtl')
+#file_list = ut.retrieve_files_time_interval(cs.WIKISTATS_BEGIN_YEAR, cs.WIKISTATS_BEGIN_MONTH, cs.WIKISTATS_BEGIN_DAY,
+#                                            cs.WIKISTATS_END_YEAR, cs.WIKISTATS_END_MONTH, cs.WIKISTATS_END_DAY,
+#                                            cs.WIKISTATS_HOURS, '', suffix='_'+ cs.EXP_RESULTS_DATA_ROUND + '.jtl')
 
 #print create_df_summary_hour_from_file(file_path=cs.EXP_RESULTS_DATA_PATH + 'T1/' + file_list[0])
 
-create_df_summary_experiment_scenario_round(cs.EXP_RESULTS_DATA_PATH, cs.EXP_RESULTS_DATA_SCENARIOS[7],
-                                            cs.EXP_RESULTS_DATA_ROUND, cs.SUMMARY_HOURLY_RESULTS_OUTPUT_FILE_NAME)
+create_df_summary_experiment_scenario_round(cs.EXP_RESULTS_DATA_PATH, cs.EXP_RESULTS_DATA_SCENARIOS,
+                                            cs.SUMMARY_HOURLY_RESULTS_OUTPUT_FILE_NAME)

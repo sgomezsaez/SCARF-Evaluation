@@ -2,6 +2,7 @@ from datetime import date, timedelta, time
 import datetime
 import calendar
 import colorsys
+import itertools
 
 timeStampToDateTime = lambda x: datetime.fromtimestamp(
             int(x)
@@ -73,3 +74,6 @@ def get_N_HexCol(N=5):
         rgb = map(lambda x: int(x*255),colorsys.hsv_to_rgb(*rgb))
         hex_out.append("".join(map(lambda x: chr(x).encode('hex'),rgb)))
     return hex_out
+
+def flip(items, ncol):
+    return itertools.chain(*[items[i::ncol] for i in range(ncol)])
