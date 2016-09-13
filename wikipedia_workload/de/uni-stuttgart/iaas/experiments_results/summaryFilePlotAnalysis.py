@@ -80,11 +80,14 @@ def bar_plot_average_hourly_analysis(file_list, scenario_list, plot_parameter, p
             y_axis_data = df[plot_parameter].sum()
 
         if (plot_parameter == cs.HOUR_SUMMARY_TIMESTAMP_DURATION):
+            print df[plot_parameter].tolist()
             y_axis_data = df[plot_parameter].sum() / 3600
+
 
 
         if (plot_parameter == cs.HOUR_SUMMARY_ERROR_RATE):
             y_axis_data = (1 - (float(df[cs.HOUR_SUMMARY_SUM_REQS_SUCCESS].sum()) / float(df[cs.HOUR_SUMMARY_SUM_ALL_REQS].sum())))
+
 
         y_axis_list.append(y_axis_data)
 
@@ -95,7 +98,7 @@ def bar_plot_average_hourly_analysis(file_list, scenario_list, plot_parameter, p
     ax1.set_xticklabels(x_axis_list, fontsize=20)
     if (plot_parameter == cs.HOUR_SUMMARY_TIMESTAMP_DURATION):
         ax1.set_ylabel('duration_hour', fontsize=20)
-    if (plot_parameter == cs.HOUR_SUMMARY_AVG_LATENCY):
+    elif (plot_parameter == cs.HOUR_SUMMARY_AVG_LATENCY):
         ax1.set_ylabel('avg_latency (s)', fontsize=20)
     else:
         ax1.set_ylabel(plot_parameter, fontsize=20)

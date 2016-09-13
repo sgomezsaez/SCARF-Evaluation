@@ -41,6 +41,9 @@ def create_df_summary_hour_from_file(file_path=''):
     mean_reqs_per_sec = 1 / (description.iloc[1][cs.EXP_RESULTS_LATENCY] / 1000)
     total_bytes = df[cs.EXP_RESULTS_BYTES].sum()
 
+    reqs_latency_greater_40 = len(df[df[cs.EXP_RESULTS_LATENCY] > (40 * 1000)])
+    reqs_latency_greater_30 = len(df[df[cs.EXP_RESULTS_LATENCY] > (30 * 1000)])
+
     sorted_df_timestamp = df.sort_index(by=[cs.EXP_RESULTS_TIMESTAMP], ascending=True)
 
     start_timestamp = time.mktime(datetime.datetime.strptime(sorted_df_timestamp.iloc[0][cs.EXP_RESULTS_TIMESTAMP], "%Y/%m/%d %H:%M:%S").timetuple())
@@ -50,7 +53,7 @@ def create_df_summary_hour_from_file(file_path=''):
 
     data = [[hour_timestamp, mean_elapsed, total_reqs_resp_200, total_reqs_resp_404, total_reqs_resp_500, total_reqs_success, total_reqs,
             mean_bytes, mean_latency, total_concurrent_users, mean_reqs_per_sec, total_bytes, start_timestamp,
-            end_timestamp, duration_sec]]
+            end_timestamp, duration_sec, reqs_latency_greater_40, reqs_latency_greater_30]]
     return pd.DataFrame(data, columns=cs.SUMMARY_HOURLY_RESULTS_INPUT_COLUMNS_LIST)
 
 
