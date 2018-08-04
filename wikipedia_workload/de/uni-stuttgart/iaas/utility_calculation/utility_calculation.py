@@ -121,6 +121,8 @@ def calculate_utility_distributions_cost():
 
     max_cost = sorted(cost_scenarios,key=lambda l:l[1], reverse=True)[0]
 
+    print cost_scenarios
+
     cost_scenarios_cost_utility = []
     for i in cost_scenarios:
         cost_scenarios_cost_utility.append([i[0], max_cost[1] - i[1]])
@@ -142,6 +144,6 @@ def calculate_utility_distributions_availability():
 #print calculate_utility_distributions()
 #print sorted(calculate_utility_distributions(),key=lambda l:l[1], reverse=True)
 #print calculate_utility_distributions_cost()
-#print sorted(calculate_utility_distributions_cost(),key=lambda l:l[1], reverse=True)
+print sorted(calculate_utility_distributions_cost(),key=lambda l:l[1], reverse=True)
 #print calculate_utility_distributions_availability()
 #print sorted(calculate_utility_distributions_availability(),key=lambda l:l[1], reverse=False)

@@ -4,7 +4,7 @@ WIKISTATS_PROJECTCOUNT = "projectcounts"
 
 WIKISTATS_FILTER_VALUES = ["en"]
 
-WIKISTATS_FILE_SCALED_100_SUFFIX = '_scaled_factor100Scaling'
+WIKISTATS_FILE_SCALED_SUFFIX = '_scaled_factor1000Scaling'
 # Wikistats Unique Devices Properties
 WIKISTATS_UNIQUE_DEVICES_URL = "https://dumps.wikimedia.org/other/unique_devices/2016/2016-01/"
 
@@ -24,7 +24,7 @@ WIKISTATS_UNIQUE_DEVICES_COL_LIST = [WIKISTATS_UNIQUE_DEVICES_TIMESTAMP, WIKISTA
 
 
 
-WIKISTATS_UNIQUE_DEVICES_FILE_PATH = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/data/unique_users_monthly.csv'
+WIKISTATS_UNIQUE_DEVICES_FILE_PATH = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/unique_users_monthly.csv'
 
 # Wikistats HTTP Retrieval properties
 
@@ -66,7 +66,7 @@ wikiversity_del = ".v"
 mediawiki_del = ".w"
 
 # Data local path
-DATA_LOCAL_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/data/"
+DATA_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/data/"
 DATA_LOCAL_FILE_FILTERED = "_filtered"
 DATA_LOCAL_FILE_MONTHLY = "_monthly"
 DATA_LOCAL_FILE_HOURLY_SUMMARY = "_hourly_summary"
@@ -76,7 +76,7 @@ DATA_LOCAL_FILE_NO_CLEAN = "_no_clean"
 
 
 # Figures Path
-FIGURES_LOCAL_PATH = "/home/ubuntu/SCARF-Evaluation/"
+FIGURES_LOCAL_PATH = "/Users/gomezsso/Documents/dissertation/Publications/Journal/2016_TOIT/gfx/charts/"
 
 # Threads Config
 THREAD_NUMBER = 24
@@ -127,15 +127,15 @@ WIKISTATS_COL_DELAY = 'col_delay'
 
 # Load Test Properties
 
-JAR_LOAD_TEST_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_loader/DynamicExecuter-1.0-SNAPSHOT.jar"
-LOAD_TEST_CONFIG_PATH = "/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/"
+JAR_LOAD_TEST_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_loader/DynamicExecuter-1.0-SNAPSHOT.jar"
+LOAD_TEST_CONFIG_PATH = "/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/"
 LOAD_TEST_ARGUMENTS_FILE = LOAD_TEST_CONFIG_PATH + 'arguments.properties'
 LOAD_TEST_CONFIG_FILE = LOAD_TEST_CONFIG_PATH + 'config.properties'
 
 CONFIG_TEST_PLAN_PATH_VAR = 'test_plan_path'
 CONFIG_JMETER_PATH_VAR = 'jmeter_home_path'
-CONFIG_TEST_PLAN_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/MediaWiki_Load_Profile.jmx'
-CONFIG_JMETER_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/jmeter_loader/jmeter'
+CONFIG_TEST_PLAN_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/jmeter_test_plan/MediaWiki_Load_Profile.jmx'
+CONFIG_JMETER_PATH_VALUE = '/Users/gomezsso/Applications/apache-jmeter-2.9'
 
 ARGUMENTS_JMETER_SCENARIO_ID_VAR = 'experiment_scenario_id'
 ARGUMENTS_JMETER_ROUND_ID_VAR = 'experiment_round'
@@ -156,7 +156,7 @@ ARGUMENTS_JMETER_SCENARIO_ID_VALUE = '1.1.1'
 ARGUMENTS_JMETER_ROUND_ID_VALUE = 'R1'
 ARGUMENTS_JMETER_HTTP_HOST_VALUE = 'localhost'
 ARGUMENTS_JMETER_HTTP_PORT_VALUE = '80'
-ARGUMENTS_JMETER_HTTP_PATH_VALUE = '/w'
+ARGUMENTS_JMETER_HTTP_PATH_VALUE = '/w/index.php'
 ARGUMENTS_JMETER_LOOP_PER_THREAD_VALUE = '1'
 ARGUMENTS_JMETER_THREAD_RAMPUP_VALUE = '0'
 ARGUMENTS_JMETER_WORKLOAD_CSV_PATH_VALUE = DATA_LOCAL_PATH
@@ -164,5 +164,5 @@ ARGUMENTS_JMETER_WORKLOAD_CSV_NUM_ROWS_VALUE = '7704'
 ARGUMENTS_JMETER_WORKLOAD_CSV_COL_NAMES_VALUE = 'col_delay,col_page,col_project,col_requests,col_size'
 ARGUMENTS_JMETER_WORKLOAD_CSV_COL_DELIMITER_VALUE = ','
 ARGUMENTS_JMETER_DELAY_BETWEEN_REQUESTS_VALUE = '1'
-ARGUMENTS_JMETER_RESULTS_PATH_VALUE = '/home/ubuntu/SCARF-Evaluation/wikipedia_workload/experiments_results'
+ARGUMENTS_JMETER_RESULTS_PATH_VALUE = '/Users/gomezsso/Documents/dissertation_evaluation/SCARF-Evaluation/wikipedia_workload/experiments_results'
 

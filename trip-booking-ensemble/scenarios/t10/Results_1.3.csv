@@ -1,0 +1,40 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,Latency
+2016/09/08 08:15:07,131,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-1,text,true,128
+2016/09/08 08:15:08,5,BeanShell Sampler,200,OK,ThreadGroup 1-1,text,true,0
+2016/09/08 08:15:09,42,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-2,text,true,41
+2016/09/08 08:15:09,4,BeanShell Sampler,200,OK,ThreadGroup 1-2,text,true,0
+2016/09/08 08:15:10,40,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-3,text,true,40
+2016/09/08 08:15:10,4,BeanShell Sampler,200,OK,ThreadGroup 1-3,text,true,0
+2016/09/08 08:15:12,45,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-4,text,true,45
+2016/09/08 08:15:12,4,BeanShell Sampler,200,OK,ThreadGroup 1-4,text,true,0
+2016/09/08 08:15:13,41,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-5,text,true,41
+2016/09/08 08:15:14,6,BeanShell Sampler,200,OK,ThreadGroup 1-5,text,true,0
+2016/09/08 08:15:15,40,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-6,text,true,40
+2016/09/08 08:15:15,4,BeanShell Sampler,200,OK,ThreadGroup 1-6,text,true,0
+2016/09/08 08:15:17,42,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-7,text,true,42
+2016/09/08 08:15:17,4,BeanShell Sampler,200,OK,ThreadGroup 1-7,text,true,0
+2016/09/08 08:15:18,43,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-8,text,true,43
+2016/09/08 08:15:19,3,BeanShell Sampler,200,OK,ThreadGroup 1-8,text,true,0
+2016/09/08 08:15:20,41,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-9,text,true,40
+2016/09/08 08:15:20,3,BeanShell Sampler,200,OK,ThreadGroup 1-9,text,true,0
+2016/09/08 08:15:22,42,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-10,text,true,41
+2016/09/08 08:15:22,3,BeanShell Sampler,200,OK,ThreadGroup 1-10,text,true,0
+2016/09/08 08:15:23,47,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-11,text,true,46
+2016/09/08 08:15:23,3,BeanShell Sampler,200,OK,ThreadGroup 1-11,text,true,0
+2016/09/08 08:15:25,42,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-12,text,true,41
+2016/09/08 08:15:25,3,BeanShell Sampler,200,OK,ThreadGroup 1-12,text,true,0
+2016/09/08 08:15:27,42,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-13,text,true,42
+2016/09/08 08:15:27,3,BeanShell Sampler,200,OK,ThreadGroup 1-13,text,true,0
+2016/09/08 08:15:10,3600038,HTTP Request - passengerRouteRequest,Non HTTP response code: java.net.SocketTimeoutException,Non HTTP response message: Read timed out,ThreadGroup 1-2,text,false,0
+2016/09/08 08:15:11,3600104,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-1,text,false,3600104
+2016/09/08 08:15:13,3600108,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-3,text,false,3600108
+2016/09/08 08:15:14,3600102,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-4,text,false,3600101
+2016/09/08 08:15:17,3600102,HTTP Request - passengerRouteRequest,Non HTTP response code: java.net.SocketTimeoutException,Non HTTP response message: Read timed out,ThreadGroup 1-5,text,false,0
+2016/09/08 08:15:17,3600118,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-6,text,false,3600118
+2016/09/08 08:15:20,3600055,HTTP Request - passengerRouteRequest,Non HTTP response code: java.net.SocketTimeoutException,Non HTTP response message: Read timed out,ThreadGroup 1-7,text,false,0
+2016/09/08 08:15:20,3600125,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-8,text,false,3600125
+2016/09/08 08:15:23,3600116,HTTP Request - passengerRouteRequest,Non HTTP response code: java.net.SocketTimeoutException,Non HTTP response message: Read timed out,ThreadGroup 1-9,text,false,0
+2016/09/08 08:15:23,3600080,HTTP Request - passengerRouteRequest,Non HTTP response code: java.net.SocketTimeoutException,Non HTTP response message: Read timed out,ThreadGroup 1-10,text,false,0
+2016/09/08 08:15:26,3600130,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-11,text,false,3600130
+2016/09/08 08:15:27,3600113,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-12,text,false,3600113
+2016/09/08 08:15:30,3600115,HTTP Request - passengerRouteRequest,500,Internal Server Error,ThreadGroup 1-13,text,false,3600115

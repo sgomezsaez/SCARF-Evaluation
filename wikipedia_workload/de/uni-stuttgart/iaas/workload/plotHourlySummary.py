@@ -41,7 +41,7 @@ def plot_hourly_summary_workload(filePath='', outputFigureSummaryRequests='.'):
     # Plotting Request Count
     ax1 = plt.subplot(211)
     countRequests = df[cs.GENERATED_WORKLOAD_COL_SUM_REQS].tolist()
-    print countRequests
+    #print countRequests
     l1 = ax1.plot(date_list, countRequests, color='b')
     ax1.xaxis.set_visible(False)
     ax1.set_title("Requests - Hourly Distribution")
@@ -137,18 +137,18 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
         date_list.append(datetime.datetime.fromtimestamp(i))
 
     # Creating Figure for the Requests Analysis
-    fig1 = plt.figure(figsize=(8, 6))
-    plt.suptitle('Number of Requests - Jan. 2016 Hourly Analysis', fontsize=13)
+    fig1 = plt.figure(figsize=(8, 8))
 
     # Plotting Request Count
     ax1 = plt.subplot(211)
     countRequests = df[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ].tolist()
-    print countRequests
+    #print countRequests
     l1 = ax1.plot(date_list, countRequests, color='b')
     ax1.xaxis.set_visible(False)
-    ax1.set_ylabel('Total', fontsize=13)
+    ax1.set_ylabel('Total', fontsize=15)
     #ax1.set_title("Sum")
     ax1.grid(True)
+    ax1.set_title('Hourly Number of Wiki Page Requests', fontsize=20)
 
 
     # Plotting Request Mean
@@ -157,7 +157,8 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     l2 = ax3.plot(date_list, countMean, color='r')
     #ax1.xaxis.set_visible(False)
     ax3.grid(True)
-    ax3.set_ylabel('Mean', fontsize=13)
+    ax3.set_ylabel('Mean', fontsize=15)
+    ax3.set_title('Hourly Number of Requests per Wiki Page', fontsize=20)
 
     # Plotting Request Standard Deviation
 
@@ -168,7 +169,8 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
 
     # Axis
     ax3.xaxis.set_major_locator(DayLocator())
-    ax3.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
+    #ax3.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
+    ax3.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d'))
     plt.xticks(rotation=80)
     #ax1.grid(True)
 
@@ -180,17 +182,18 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
 
     # Creating Figure for the Requests Analysis
     fig2 = plt.figure(figsize=(8, 6))
-    plt.suptitle('Bytes per Request - Jan. 2016 Hourly Analysis', fontsize=13)
+    #plt.suptitle('Bytes per Request - Jan. 2016 Hourly Analysis', fontsize=13)
 
     # Plotting Bytes Count
 
     ax2 = plt.subplot(211)
     countBytes = df[cs.WORKLOAD_SUMMARY_STAT_SUM_BYTES].tolist()
-    print countBytes
+    #print countBytes
     ax2.plot(date_list, countBytes, color='b')
     ax2.xaxis.set_visible(False)
     ax2.grid(True)
-    ax2.set_ylabel('Total', fontsize=13)
+    ax2.set_ylabel('Total', fontsize=15)
+    ax2.set_title('Hourly Bytes per Request - Jan. 2016', fontsize=20)
 
     # Plotting Bytes Mean
 
@@ -198,8 +201,9 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     bytesMean = df[cs.WORKLOAD_SUMMARY_STAT_MEAN_BYTES].tolist()
     ax4.plot(date_list, bytesMean, color='r')
     #ax2.xaxis.set_visible(False)
-    ax4.set_ylabel('Mean', fontsize=13)
+    ax4.set_ylabel('Mean', fontsize=15)
     ax4.grid(True)
+    ax4.set_title('Hourly Bytes Page per Wiki Page - Jan. 2016', fontsize=20)
 
     # Plotting Bytes Standard Deviation
 
@@ -211,39 +215,44 @@ def plot_hourly_summary(filePath='', outputFigureSummaryRequests='.', outputFigu
     # Axis
     #ax2.xaxis.set_major_locator(HourLocator(interval=25))
     ax4.xaxis.set_major_locator(DayLocator())
-    ax4.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
+    #ax4.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d %H:%M'))
+    ax4.xaxis.set_major_formatter(DateFormatter('%a %Y-%m-%d'))
     plt.xticks(rotation=80)
     ax4.grid(True)
 
 
     plt.gcf().subplots_adjust(bottom=0.26)
 
+    print df
+    print df['count_req'].mean()
+    print df['count_req'].std()
+
 
     # Plotting Bytes Max
 
     # Saving Figure to PDF
-    fig1.savefig(outputFigureSummaryRequests, format='pdf')
-    fig2.savefig(outputFigureSummaryBytes, format='pdf')
+    #fig1.savefig(outputFigureSummaryRequests, format='pdf')
+    #fig2.savefig(outputFigureSummaryBytes, format='pdf')
     #plt.show()
 
 
-fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_no_clean.csv"
+#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_no_clean.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_RobustScaler.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-1000.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled0-10000.csv"
 #fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor100Scaling.csv"
-#fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
+fileName = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
 #fileNameWorkload = cs.DATA_LOCAL_PATH + "workload_hourly_distribution_scaled_factor1000.csv"
-outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_no-scale.pdf"
-outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_no-scale.pdf"
+#outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_no-scale.pdf"
+#outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_no-scale.pdf"
 #outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scaleRobustScaler.pdf"
 #outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scaleRobustScaler.pdf"
 #outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scale0-1000.pdf"
 #outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scale0-1000.pdf"
 #outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scalefactor100.pdf"
 #outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scalefactor100.pdf"
-#outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scalefactor1000.pdf"
-#outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scalefactor1000.pdf"
+outputFigureSummaryRequests = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryRequests_scalefactor1000.pdf"
+outputFigureSummaryBytes = cs.FIGURES_LOCAL_PATH + '/' + "hourlySummaryBytes_scaled_scalefactor1000.pdf"
 plot_hourly_summary(fileName, outputFigureSummaryRequests, outputFigureSummaryBytes)
 #plot_hourly_summary_workload(filePath=fileNameWorkload, outputFigureSummaryRequests=outputFiguresPath)
 

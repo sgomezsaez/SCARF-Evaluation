@@ -1,0 +1,40 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,Latency
+2016/09/09 04:30:39,125,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-1,text,true,122
+2016/09/09 04:30:40,5,BeanShell Sampler,200,OK,ThreadGroup 1-1,text,true,0
+2016/09/09 04:30:40,39,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-2,text,true,39
+2016/09/09 04:30:40,4,BeanShell Sampler,200,OK,ThreadGroup 1-2,text,true,0
+2016/09/09 04:30:42,40,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-3,text,true,40
+2016/09/09 04:30:42,5,BeanShell Sampler,200,OK,ThreadGroup 1-3,text,true,0
+2016/09/09 04:30:43,41,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-4,text,true,40
+2016/09/09 04:30:44,4,BeanShell Sampler,200,OK,ThreadGroup 1-4,text,true,0
+2016/09/09 04:30:45,43,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-5,text,true,43
+2016/09/09 04:30:45,4,BeanShell Sampler,200,OK,ThreadGroup 1-5,text,true,0
+2016/09/09 04:30:47,43,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-6,text,true,43
+2016/09/09 04:30:47,4,BeanShell Sampler,200,OK,ThreadGroup 1-6,text,true,0
+2016/09/09 04:30:48,46,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-7,text,true,45
+2016/09/09 04:30:48,3,BeanShell Sampler,200,OK,ThreadGroup 1-7,text,true,0
+2016/09/09 04:30:50,42,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-8,text,true,41
+2016/09/09 04:30:50,2,BeanShell Sampler,200,OK,ThreadGroup 1-8,text,true,0
+2016/09/09 04:30:51,43,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-9,text,true,42
+2016/09/09 04:30:52,3,BeanShell Sampler,200,OK,ThreadGroup 1-9,text,true,0
+2016/09/09 04:30:53,41,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-10,text,true,41
+2016/09/09 04:30:53,3,BeanShell Sampler,200,OK,ThreadGroup 1-10,text,true,0
+2016/09/09 04:30:42,12494,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-2,text,true,12494
+2016/09/09 04:30:55,43,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-11,text,true,43
+2016/09/09 04:30:55,2,BeanShell Sampler,200,OK,ThreadGroup 1-11,text,true,0
+2016/09/09 04:30:56,44,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-12,text,true,44
+2016/09/09 04:30:57,3,BeanShell Sampler,200,OK,ThreadGroup 1-12,text,true,0
+2016/09/09 04:30:58,44,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-13,text,true,44
+2016/09/09 04:30:58,2,BeanShell Sampler,200,OK,ThreadGroup 1-13,text,true,0
+2016/09/09 04:30:45,22171,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-3,text,true,22171
+2016/09/09 04:30:45,24671,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-4,text,true,24670
+2016/09/09 04:30:48,40540,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-5,text,true,40540
+2016/09/09 04:30:48,47093,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-6,text,true,47093
+2016/09/09 04:30:51,46303,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-7,text,true,46303
+2016/09/09 04:30:52,48125,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-8,text,true,48125
+2016/09/09 04:30:55,47103,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-9,text,true,47103
+2016/09/09 04:30:55,47790,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-10,text,true,47790
+2016/09/09 04:30:58,48377,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-11,text,true,48377
+2016/09/09 04:30:58,49077,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-12,text,true,49077
+2016/09/09 04:31:01,47952,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-13,text,true,47952
+2016/09/09 04:30:43,3600081,HTTP Request - passengerRouteRequest,Non HTTP response code: java.net.SocketTimeoutException,Non HTTP response message: Read timed out,ThreadGroup 1-1,text,false,0

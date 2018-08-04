@@ -49,7 +49,7 @@ def correlate_users_requests(requests_summary_file='', users_access_file=''):
     ax1 = plt.subplot(111)
     #ax1.plot(df_grouped.as_matrix(columns=[cs.WORKLOAD_SUMMARY_STAT_SUM_REQ]), "r.-")
     ax1.scatter(array_user_access, array_requests, s=20, alpha=0.5, color='black')
-    plt.title('Daily Users Access vs. Wikipedia Requests', fontsize=15)
+    plt.title('Daily Users Access vs. Wikipedia Requests per Day', fontsize=15)
     plt.xlabel('Users', fontsize=15)
     plt.ylabel('Requests', fontsize=15)
     ax1.plot(array_user_access, regr.predict(array_user_access), color='blue', linewidth=2, label='Linear Regression')
@@ -66,6 +66,6 @@ def correlate_users_requests(requests_summary_file='', users_access_file=''):
 
 #scaled_users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly.csv'
 #requests_summary_file = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_no_clean.csv"
-#scaled_users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
-#requests_summary_file = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
-#correlate_users_requests(requests_summary_file=requests_summary_file, users_access_file=scaled_users_daily_access_file)
+scaled_users_daily_access_file = cs.DATA_LOCAL_PATH + 'unique_users_monthly_scaled_factor1000.csv'
+requests_summary_file = cs.DATA_LOCAL_PATH + "1-2016_1-2016_hourly_summary_scaled_factor1000Scaling.csv"
+correlate_users_requests(requests_summary_file=requests_summary_file, users_access_file=scaled_users_daily_access_file)

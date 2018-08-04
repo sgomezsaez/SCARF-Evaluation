@@ -1,0 +1,13 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,Latency
+2016/09/09 04:29:53,120,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-1,text,true,118
+2016/09/09 04:29:53,5,BeanShell Sampler,200,OK,ThreadGroup 1-1,text,true,0
+2016/09/09 04:29:54,41,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-2,text,true,41
+2016/09/09 04:29:55,4,BeanShell Sampler,200,OK,ThreadGroup 1-2,text,true,0
+2016/09/09 04:29:56,40,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-3,text,true,40
+2016/09/09 04:29:57,4,BeanShell Sampler,200,OK,ThreadGroup 1-3,text,true,0
+2016/09/09 04:29:59,49,HTTP Request - retrievePassengerData,200,OK,ThreadGroup 1-4,text,true,49
+2016/09/09 04:29:59,4,BeanShell Sampler,200,OK,ThreadGroup 1-4,text,true,0
+2016/09/09 04:29:57,12785,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-2,text,true,12785
+2016/09/09 04:29:57,20562,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-1,text,true,20562
+2016/09/09 04:30:01,24980,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-3,text,true,24980
+2016/09/09 04:30:01,25760,HTTP Request - passengerRouteRequest,200,OK,ThreadGroup 1-4,text,true,25760
