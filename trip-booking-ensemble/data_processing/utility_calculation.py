@@ -65,6 +65,36 @@ def calculate_utility(df):
 
     return df
 
+def calculate_utility_cost(df):
+
+    df['utility'] = 0.0
+    for index, row in df.iterrows():
+        cost = row['price'] * constants.TIME_INTERVAL
+
+        df.set_value(index, 'utility', (cost))
+
+    return df
+
+def calculate_utility_availability(df):
+
+    df['utility'] = 0.0
+    for index, row in df.iterrows():
+        availability = row['availability']
+
+        df.set_value(index, 'utility', (availability))
+
+    return df
+
+def calculate_utility_satisfaction(df):
+
+    df['utility'] = 0.0
+    for index, row in df.iterrows():
+        satisfaction = avg_user_satisfaction(row)
+
+        df.set_value(index, 'utility', satisfaction)
+
+    return df
+
 print 'Calculating Utility...'
 print 'Starting File Processing...'
 print 'Creating a Summary of all Evaluation Results...'
@@ -84,4 +114,14 @@ fp.attach_price_to_dataframe(summary_all_data_frame, constants.ZETA_TOPOLOGIES)
 
 #print summary_all_data_frame
 
+print '####### Utility SCARF #######'
 print calculate_utility(summary_all_data_frame).sort_values(by=['utility'], ascending=False)[['zeta_topology', 'utility']]
+
+print '####### Utility Cost #######'
+print calculate_utility_cost(summary_all_data_frame).sort_values(by=['utility'], ascending=True)[['zeta_topology', 'utility']]
+
+print '####### Utility Availability #######'
+print calculate_utility_availability(summary_all_data_frame).sort_values(by=['utility'], ascending=True)[['zeta_topology', 'utility']]
+
+print '####### Utility Satisfaction #######'
+print calculate_utility_satisfaction(summary_all_data_frame).sort_values(by=['utility'], ascending=False)[['zeta_topology', 'utility']]
